@@ -10,36 +10,120 @@
 </head>
 
 <body>
-    <div class="element_container">
-        <div>
-            <p>item1</p>
-        </div>
-        <div>
-            <p>item2</p>
-        </div>
-        <div>
-            <p>item3</p>
+    <div class="header">
+        <div class="header-text">
+            <h1>Lorem ipsum dolor sit amet, consectetur adipisicing elit. At, cupiditate! Libero accusamus vitae ex repudiandae, qui, nesciunt reiciendis aliquid accusantium, ipsam distinctio velit mollitia iusto nisi officia aliquam necessitatibus! Cupiditate!</h1>
         </div>
     </div>
+    
 
-    <div class="element_container">
+    <div class="element-container">
+        <div class="item-container">
+            <div class="item-header">
+                <h1>Item 1</h1>
+            </div>
+            <div class="item-description">
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque sequi accusamus quia eius? Nisi neque
+                    fugiat eaque iste voluptatibus libero doloribus obcaecati ab tempore repellendus molestiae labore
+                    qui, tenetur ipsum!</p>
+            </div>
+        </div>
+        <hr />
+        <div class="item-container">
+            <div class="item-header">
+                <h1>Item 2</h1>
+            </div>
+            <div class="item-description">
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia, voluptatibus suscipit incidunt nulla
+                    repellat distinctio minima possimus eligendi obcaecati consectetur saepe nostrum totam animi.
+                    Aliquid
+                    laborum excepturi hic asperiores saepe.</p>
+            </div>
+        </div>
+        <hr />
+        <div class="item-container">
+        <div class="item-header">
+            <h1>Item 3</h1>
+        </div>
+        <div class="item-description">
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt quisquam fugit facilis eos inventore
+                dolores quis sapiente vel odio quam consectetur rerum harum ad ducimus dolorem unde, voluptate sunt
+                neque.</p>
+        </div>
+    </div>
+    <hr />
+    <div class="item-container">
+    <div class="item-header">
+        <h1>Item 4</h1>
+    </div>
+    <div class="item-description">
+        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt quisquam fugit facilis eos inventore
+            dolores quis sapiente vel odio quam consectetur rerum harum ad ducimus dolorem unde, voluptate sunt
+            neque.</p>
+    </div>
+    </div>
+    <hr />
+    <div class="item-container">
+        <div class="item-header">
+            <h1>Item 5</h1>
+        </div>
+        <div class="item-description">
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt quisquam fugit facilis eos inventore
+                dolores quis sapiente vel odio quam consectetur rerum harum ad ducimus dolorem unde, voluptate sunt
+                neque.</p>
+        </div>
+    </div>
+    <hr />
+    <div class="item-container">
+    <div class="item-header">
+        <h1>Item 6</h1>
+    </div>
+    <div class="item-description">
+        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt quisquam fugit facilis eos inventore
+            dolores quis sapiente vel odio quam consectetur rerum harum ad ducimus dolorem unde, voluptate sunt
+            neque.</p>
+    </div>
+    </div>
+    <hr />
+    <div class="item-container">
+    <div class="item-header">
+        <h1>Item 7</h1>
+    </div>
+    <div class="item-description">
+        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt quisquam fugit facilis eos inventore
+            dolores quis sapiente vel odio quam consectetur rerum harum ad ducimus dolorem unde, voluptate sunt
+            neque.</p>
+    </div>
+    </div>
+    </div>
+
+    <div class="element-container">
         <form action="" method="/post">
             <ul>
                 <li>
                     <label for="name">Name:</label>
-                    <input type="text" id="name" value="Имя" name="user_name">
+                </br>
+                    <input type="text" id="name" placeholder="Имя" name="user_name">
                 </li>
                 <li>
                     <label for="lastname">Lastname:</label>
-                    <input type="text" id="lastname" value="Фамилия" name="user_lastname">
+                </br>
+                    <input type="text" id="lastname" placeholder="Фамилия" name="user_lastname">
                 </li>
                 <li>
-                    <label for="description">Description:</label>
-                    <input type="text" id="description" value="Описание" name="user_description">
+                    <label for="Item">Item:</label>
+                </br>
+                <select id="item" name="country">
+                    <option value="item1">item 1</option>
+                    <option value="item2">item 2</option>
+                    <option value="item3">item 3</option>
+                    <option value="item4">item 4</option>
+                    <option value="item5">item 5</option>
+                    <option value="item6">item 6</option>
+                    <option value="item7">item 7</option>
+                  </select>
                 </li>
-                <li>
-                    <button class="submit_button" type="submit">Отправить</button>
-                </li>
+                    <input class="submit-button" type="submit">
             </ul>
         </form>
     </div>
