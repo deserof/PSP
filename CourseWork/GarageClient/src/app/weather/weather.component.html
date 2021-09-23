@@ -1,0 +1,19 @@
+<p>weather works!</p>
+<table calss="table table-striped">
+    <thead>
+        <tr>
+            <td>Date</td>
+            <td>Tf</td>
+            <td>Tc</td>
+            <td>Summary</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let dataItem of WeatherList">
+            <td>{{dataItem.date}}</td>
+            <td>{{dataItem.temperatureF}}</td>
+            <td>{{dataItem.temperatureC}}</td>
+            <td>{{dataItem.summary}}</td>
+        </tr>
+    </tbody>
+</table>
