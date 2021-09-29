@@ -52,9 +52,4 @@ public class EchoThread extends Thread {
             }
         }
     }
-
-    private void SendStatus() throws InterruptedException {
-        Thread.sleep(5000);
-        out.println("Вы онлайн");
-    }
 }
