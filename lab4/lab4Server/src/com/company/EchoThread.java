@@ -24,13 +24,15 @@ public class EchoThread extends Thread {
     }
 
     public void run() {
+
         try {
-            username = in.readLine();;
+            username = in.readLine();
             out.println(username + " в чате");
-            new Thread(status).run();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        new Thread(new Status(socket)).start();
 
         while (true) {
             try {

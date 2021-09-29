@@ -11,7 +11,6 @@ public class Status extends Thread{
 
     public Status(Socket clientSocket) {
         this.socket = clientSocket;
-
         try {
             out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
         } catch (IOException e) {
