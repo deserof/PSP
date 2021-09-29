@@ -2,6 +2,7 @@ package com.company;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class EchoThread extends Thread {
     private Socket socket;
@@ -9,8 +10,9 @@ public class EchoThread extends Thread {
     private PrintWriter out;
     private String username;
     private Status status;
+    private ArrayList<Socket> sockets;
 
-    public EchoThread(Socket clientSocket) {
+    public EchoThread(Socket clientSocket, ArrayList<Socket> sockets) {
         this.socket = clientSocket;
 
         try {
@@ -19,6 +21,8 @@ public class EchoThread extends Thread {
         } catch (IOException e) {
             return;
         }
+
+        this.sockets = sockets;
 
         status = new Status(clientSocket);
     }
@@ -43,8 +47,14 @@ public class EchoThread extends Thread {
                     return;
                 }
 
-                System.out.println("Echoing: " + text);
-                out.println(text);
+                System.out.println("Echoing: " + username + ": " + text);
+
+                for (Socket socket:sockets) {
+                  PrintWriter bc = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
+                  bc.println(username + ": " + text);
+                  bc.flush();
+                }
+
             } catch (IOException e) {
                 out.println(username + " вышел");
                 System.out.println("disconnected");
