@@ -6,7 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
-@WebServlet(name = "images", value = "/images")
+@WebServlet("/images")
 public class ImageServlet extends HttpServlet {
     private ImageService imageService = new ImageService();
     private String message;

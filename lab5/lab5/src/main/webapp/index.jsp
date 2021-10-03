@@ -5,7 +5,7 @@
     <title>lab5</title>
 </head>
 <body>
-<h1><%= "Main page with choice images by fitres" %>
+<h1><%= "Main page with choice images by filtres" %>
 </h1>
 <br/>
 
