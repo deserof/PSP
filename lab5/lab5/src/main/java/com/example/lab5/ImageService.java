@@ -40,7 +40,7 @@ public class ImageService {
         }
 
         return images;
-    };
+    }
 
     public static String imageToBase64(BufferedImage image) throws IOException {
         ByteArrayOutputStream out = new ByteArrayOutputStream(BUFFER_SIZE);
