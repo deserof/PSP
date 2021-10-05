@@ -17,7 +17,8 @@
 <body>
 
 <h1>Employees</h1>
-
+</br>
+<h3><a href="add">Add employee</a></h3>
 <table class="table">
     <thead>
     <tr>

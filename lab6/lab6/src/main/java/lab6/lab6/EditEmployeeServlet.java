@@ -11,11 +11,12 @@ import java.util.ArrayList;
 @WebServlet(name = "edit", value = "/edit")
 public class EditEmployeeServlet extends HttpServlet {
     private EmployeeService employeeService = new EmployeeService();
+    private int id;
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html");
-
-        Employee employee = employeeService.GetById(Integer.parseInt(request.getParameter("id")));
+        id = Integer.parseInt(request.getParameter("id"));
+        Employee employee = employeeService.GetById(id);
 
         request.setAttribute("employee", employee);
         getServletContext().getRequestDispatcher("/EditEmployee.jsp").forward(request, response);
@@ -23,9 +24,13 @@ public class EditEmployeeServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html");
-        // post get employee from jsp
+        Employee employee = new Employee();
+        employee.setFirstName(request.getParameter("firstName"));
+        employee.setLastName(request.getParameter("lastName"));
+        employee.setPhoneNumber(request.getParameter("phoneNumber"));
+        employeeService.Update(id, employee);
 
-        getServletContext().getRequestDispatcher("Employee").forward(request, response);
+        response.sendRedirect("employee");
     }
 
     public void destroy() {

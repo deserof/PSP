@@ -17,6 +17,17 @@ public class AddEmployeeServlet extends HttpServlet {
         getServletContext().getRequestDispatcher("/AddEmployee.jsp").forward(request, response);
     }
 
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        response.setContentType("text/html");
+        Employee employee = new Employee();
+        employee.setFirstName(request.getParameter("firstName"));
+        employee.setLastName(request.getParameter("lastName"));
+        employee.setPhoneNumber(request.getParameter("phoneNumber"));
+        employeeService.Create(employee);
+
+        response.sendRedirect("employee");
+    }
+
     public void destroy() {
     }
 }

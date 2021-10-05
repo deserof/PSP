@@ -15,23 +15,23 @@
 </head>
 <body>
 <h1>Edit employee</h1>
-<form>
-    <div class="form-group" method="post">
+<form action="edit" method="post">
+    <div class="form-group">
         <div class="col-md-4 mb-3">
             <label for="firstname">FirstName</label>
-            <input class="form-control mb" id="firstname" placeholder="Enter firstname" value="${employee.firstName}">
+            <input class="form-control mb" id="firstname" name="firstName" placeholder="Enter firstname" value="${employee.firstName}">
         </div>
     </div>
     <div class="form-group">
         <div class="col-md-4 mb-3">
             <label for="lastName">LastName</label>
-            <input class="form-control mb" id="lastName" placeholder="Enter lastName" value="${employee.lastName}">
+            <input class="form-control mb" id="lastName" name="lastName" placeholder="Enter lastName" value="${employee.lastName}">
         </div>
     </div>
     <div class="form-group">
         <div class="col-md-4 mb-3">
             <label for="phoneNumber">Phone number</label>
-            <input class="form-control mb" id="phoneNumber" placeholder="Enter phone number"
+            <input class="form-control mb" id="phoneNumber" name="phoneNumber" placeholder="Enter phone number"
                    value="${employee.phoneNumber}">
         </div>
     </div>
