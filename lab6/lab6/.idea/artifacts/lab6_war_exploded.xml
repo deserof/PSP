@@ -13,6 +13,10 @@
         <element id="directory" name="classes">
           <element id="module-output" name="lab6" />
         </element>
+        <element id="directory" name="lib">
+          <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/jstl-1.2.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/sqljdbc4-2.0.jar" />
+        </element>
       </element>
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/target/lab6-1.0-SNAPSHOT/META-INF/MANIFEST.MF" />

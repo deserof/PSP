@@ -6,6 +6,7 @@ import javax.servlet.annotation.*;
 
 @WebServlet(name = "helloServlet", value = "/hello-servlet")
 public class HelloServlet extends HttpServlet {
+    private EmployeeService employeeService = new EmployeeService();
     private String message;
 
     public void init() {
@@ -18,7 +19,7 @@ public class HelloServlet extends HttpServlet {
         // Hello
         PrintWriter out = response.getWriter();
         out.println("<html><body>");
-        out.println("<h1>" + message + "</h1>");
+        out.println("<h1>" + employeeService.GetById(1).firstName + "</h1>");
         out.println("</body></html>");
     }
 
