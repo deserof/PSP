@@ -1,17 +1,21 @@
 package lab6.lab6;
 
-
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.sql.*;
 import java.util.ArrayList;
 
 public class EmployeeRepository {
-    private String dbName = "lab6";
-    private String serverip="10.5.18.47";
-    private String serverport="1433";
-    private String url = "jdbc:sqlserver://localhost:1433;encrypt=false;databaseName=lab6;";
+    private String url = "jdbc:sqlserver://localhost:1433;"
+            + "database=lab6;"
+            + "user=artsiom;"
+            + "password=1234qwerQ!!;"
+            + "encrypt=true;"
+            + "trustServerCertificate=true;"
+            + "loginTimeout=30;";
     private String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    private String databaseUserName = "user1";
-    private String databasePassword = ")pWHupp9t#";
 
     public void Create(Employee employee) {
         try {
@@ -21,9 +25,9 @@ public class EmployeeRepository {
                 String sql = "INSERT Employee(FirstName, LastName, PhoneNumber) VALUES(?, ?, ?)";
 
                 try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
-                    preparedStatement.setString(1, employee.firstName);
-                    preparedStatement.setString(2, employee.lastName);
-                    preparedStatement.setString(3, employee.phoneNumber);
+                    preparedStatement.setString(1, employee.getFirstName());
+                    preparedStatement.setString(2, employee.getLastName());
+                    preparedStatement.setString(3, employee.getPhoneNumber());
                     ResultSet resultSet = preparedStatement.executeQuery();
                 }
             }
@@ -38,7 +42,7 @@ public class EmployeeRepository {
         try {
             Class.forName(driver).getDeclaredConstructor().newInstance();
 
-            try (Connection conn = DriverManager.getConnection(url, databaseUserName, databasePassword)) {
+            try (Connection conn = DriverManager.getConnection(url)) {
                 String sql = "SELECT * FROM Employee WHERE id=?";
 
                 try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
@@ -46,10 +50,10 @@ public class EmployeeRepository {
                     ResultSet resultSet = preparedStatement.executeQuery();
 
                     if (resultSet.next()) {
-                        employee.id = resultSet.getInt(1);
-                        employee.firstName = resultSet.getString(2);
-                        employee.lastName = resultSet.getString(3);
-                        employee.phoneNumber = resultSet.getString(4);
+                        employee.setId(resultSet.getInt(1));
+                        employee.setFirstName(resultSet.getString(2));
+                        employee.setLastName(resultSet.getString(3));
+                        employee.setPhoneNumber(resultSet.getString(4));
                     }
                 }
             }
@@ -71,10 +75,10 @@ public class EmployeeRepository {
                 ResultSet resultSet = statement.executeQuery("SELECT * FROM Employee");
                 while (resultSet.next()) {
                     Employee employee = new Employee();
-                    employee.id = resultSet.getInt(1);
-                    employee.firstName = resultSet.getString(2);
-                    employee.lastName = resultSet.getString(3);
-                    employee.phoneNumber = resultSet.getString(4);
+                    employee.setId(resultSet.getInt(1));
+                    employee.setFirstName(resultSet.getString(2));
+                    employee.setLastName(resultSet.getString(3));
+                    employee.setPhoneNumber(resultSet.getString(4));
                     employees.add(employee);
                 }
             }
@@ -93,9 +97,9 @@ public class EmployeeRepository {
                 String sql = "UPDATE Employee SET Employee.FirstName=?, Employee.LastName=?, Employee.PhoneNumber=? WHERE id=?";
 
                 try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
-                    preparedStatement.setString(1, employee.firstName);
-                    preparedStatement.setString(2, employee.lastName);
-                    preparedStatement.setString(3, employee.phoneNumber);
+                    preparedStatement.setString(1, employee.getFirstName());
+                    preparedStatement.setString(2, employee.getLastName());
+                    preparedStatement.setString(3, employee.getPhoneNumber());
                     preparedStatement.setInt(4, id);
                     ResultSet resultSet = preparedStatement.executeQuery();
                 }

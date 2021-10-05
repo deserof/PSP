@@ -9,17 +9,13 @@ public class HelloServlet extends HttpServlet {
     private EmployeeService employeeService = new EmployeeService();
     private String message;
 
-    public void init() {
-        message = "Hello World!";
-    }
-
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html");
 
         // Hello
         PrintWriter out = response.getWriter();
         out.println("<html><body>");
-        out.println("<h1>" + employeeService.GetById(1).firstName + "</h1>");
+        out.println("<h1>" + employeeService.GetById(1).getLastName() + "</h1>");
         out.println("</body></html>");
     }
 

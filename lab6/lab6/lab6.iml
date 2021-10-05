@@ -47,7 +47,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/src/main/resources/sqljdbc4-2.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/src/main/resources/mssql-jdbc-9.4.0.jre8.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
