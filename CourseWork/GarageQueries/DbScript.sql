@@ -1,5 +1,5 @@
---CREATE DATABASE "Garage"
---USE "Garage"
+CREATE DATABASE "Garage"
+USE "Garage"
 
 CREATE TABLE "Role"
 (
@@ -17,7 +17,9 @@ CREATE TABLE "User"
 	Email NVARCHAR(50) NOT NULL,
 	Phone NVARCHAR(50) NOT NULL,
 	UserPassword NVARCHAR(50) NOT NULL,
-	FOREIGN KEY (RoleId) References "Role" 
+	VehicleId INT (50) NULL,
+	FOREIGN KEY (RoleId) References "Role",
+	FOREIGN KEY (VehicleId) References "Vehicle" 
 );
 
 CREATE TABLE "Vehicle"
@@ -25,15 +27,6 @@ CREATE TABLE "Vehicle"
 	Id INT PRIMARY KEY IDENTITY,
 	Brand NVARCHAR(50) NOT NULL,
 	Model NVARCHAR(50) NOT NULL
-);
-
-CREATE TABLE "DriverVehicle"
-(
-	Id INT PRIMARY KEY IDENTITY,
-	VehicleId INT NOT NULL,
-	DriverId INT NOT NULL,
-	FOREIGN KEY (VehicleId) References "Vehicle",
-	FOREIGN KEY (DriverId) References "User"
 );
 
 CREATE TABLE "Fuel"
