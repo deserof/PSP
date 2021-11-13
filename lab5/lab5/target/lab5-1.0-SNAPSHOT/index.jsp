@@ -11,18 +11,58 @@
 <div class="h-100 d-flex justify-content-center align-items-center">
     <div class="grid">
         <div class="row">
-        <h1>Main page with choice images by filters</h1>
         </div>
-        <form method="get" name="frm" action="images">
+        <form method="get" name="frm" action="weatherForecast">
             <div class="row g-3">
                 <div class="col-auto">
-                    <label><h5>Search images by category name</h5></label>
+                    <label><h5>Weather forecast</h5></label>
                 </div>
                 <div class="col-auto">
-                    <input class="form-control" type="search" placeholder="Enter category name" name="text">
+                    <input class="btn btn-primary" type="submit" value="Show">
+                </div>
+            </div>
+        </form>
+
+        <form method="get" name="frm" action="temperatureWhenLessThanZero">
+            <div class="row g-3">
+                <div class="col-auto">
+                    <label><h5>Temperature When Less Than Zero</h5></label>
                 </div>
                 <div class="col-auto">
-                    <input class="btn btn-primary" type="submit" value="Search">
+                    <input class="btn btn-primary" type="submit" value="Show">
+                </div>
+            </div>
+        </form>
+
+        <form method="get" name="frm" action="mostHottestDays">
+            <div class="row g-3">
+                <div class="col-auto">
+                    <label><h5>Most Hottest Days</h5></label>
+                </div>
+                <div class="col-auto">
+                    <input class="btn btn-primary" type="submit" value="Show">
+                </div>
+            </div>
+        </form>
+
+        <form method="get" name="frm" action="averageTemperature">
+            <div class="row g-3">
+                <div class="col-auto">
+                    <label><h5>Average Temperature</h5></label>
+                </div>
+                <div class="col-auto">
+                    <input class="btn btn-primary" type="submit" value="Show">
+                </div>
+            </div>
+        </form>
+
+        <form method="get" name="frm" action="temperatureWhenMoreThanAverage">
+            <div class="row g-3">
+                <div class="col-auto">
+                    <label><h5>Temperature When More Than Average</h5></label>
+                </div>
+                <div class="col-auto">
+                    <input class="btn btn-primary" type="submit" value="Show">
                 </div>
             </div>
         </form>
