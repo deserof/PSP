@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FuelGarage.Controllers
 {
-    public class OrderController : Controller
+    public class UserController : Controller
     {
         public IActionResult Index()
         {
