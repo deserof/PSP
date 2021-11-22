@@ -51,6 +51,12 @@ namespace FuelGarage.Infrastructure.Services.Users
             return _dbContext.Users.Where(x => x.Email.Equals(email) && x.UserPassword.Equals(password)).FirstOrDefault();
         }
 
+        public string GetUserRoleByEmail(string email)
+        {
+            var user = _dbContext.Users.Include(x=>x.Role).Where(x => x.Email.Equals(email)).FirstOrDefault();
+            return user.Role.RoleName;
+        }
+
         public void Update(User user)
         {
             _dbContext.Update(user);

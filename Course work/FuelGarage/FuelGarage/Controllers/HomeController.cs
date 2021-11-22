@@ -1,39 +1,60 @@
-﻿using FuelGarage.Models;
+﻿using FuelGarage.Infrastructure.Services.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace FuelGarage.Controllers
 {
-    [Authorize]
+    [AllowAnonymous]
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IUserService _userService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IUserService userService)
         {
-            _logger = logger;
+            _userService = userService;
         }
 
         public IActionResult Index()
         {
+            SetLayout();
+
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult AboutUs()
         {
+            SetLayout();
+
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        private void SetLayout()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            if (User.Identity.IsAuthenticated)
+            {
+                var email = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultNameClaimType).Value;
+                var role = _userService.GetUserRoleByEmail(email);
+
+                if (role == "customer")
+                {
+                    ViewBag.Layout = "_CustomerLayout";
+                }
+
+                if (role == "admin")
+                {
+                    ViewBag.Layout = "_AdminLayout";
+                }
+
+                if (role == "driver")
+                {
+                    ViewBag.Layout = "_DriverLayout";
+                }
+            }
         }
     }
 }

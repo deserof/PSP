@@ -35,35 +35,35 @@ namespace FuelGarage.Infrastructure.Db
             modelBuilder.Entity<Status>().HasData(new Status
             {
                 Id = 1,
-                StatusName = "Open"
+                StatusName = "Открыт"
             },
             new Status
             {
                 Id = 2,
-                StatusName = "In progress"
+                StatusName = "В процессе"
             },
             new Status
             {
                 Id = 3,
-                StatusName = "Closed"
+                StatusName = "Завершен"
             });
 
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = 1,
-                Email = "admin",
+                Email = "admin@admin.admin",
                 FirstName = "adminName",
                 LastName = "adminLN",
                 MiddleName = "adminMN",
                 Phone = "+111",
                 RoleId = 3,
                 UserPassword = "admin",
-                VehicleId = null  
+                VehicleId = null
             },
             new User
             {
                 Id = 2,
-                Email = "customer",
+                Email = "customer@customer.customer",
                 FirstName = "customerName",
                 LastName = "customerLastName",
                 MiddleName = "customerMiddeName",
@@ -74,13 +74,42 @@ namespace FuelGarage.Infrastructure.Db
             new User
             {
                 Id = 3,
-                Email = "driver",
+                Email = "driver@driver.driver",
                 FirstName = "иван",
                 LastName = "иванов",
                 MiddleName = "иваныч",
                 Phone = "+980",
                 RoleId = 1,
                 UserPassword = "driver"
+            });
+
+            modelBuilder.Entity<Fuel>().HasData(new Fuel
+            {
+                Id = 1,
+                Brand = "Аи-95",
+                FuelDescription = "Топливо Аи-95",
+                Quantity = 100
+            },
+            new Fuel
+            {
+                Id = 2,
+                Brand = "Аи-92",
+                FuelDescription = "Топливо Аи-92",
+                Quantity = 150
+            },
+            new Fuel
+            {
+                Id = 3,
+                Brand = "H-80",
+                FuelDescription = "Топливо H-80",
+                Quantity = 25
+            },
+            new Fuel
+            {
+                Id = 4,
+                Brand = "Д/Т",
+                FuelDescription = "Топливо Д/Т",
+                Quantity = 500
             });
 
             base.OnModelCreating(modelBuilder);

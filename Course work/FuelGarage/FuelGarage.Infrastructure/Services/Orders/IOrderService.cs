@@ -8,5 +8,15 @@ namespace FuelGarage.Infrastructure.Services.Orders
     public interface IOrderService
     {
         List<Order> GetAll();
+
+        void Create(Order order);
+
+        void Edit(Order order);
+
+        void Delete(int id);
+
+        Order GetById(int id);
+
+        List<Order> GetByCustomerId(int id);
     }
 }

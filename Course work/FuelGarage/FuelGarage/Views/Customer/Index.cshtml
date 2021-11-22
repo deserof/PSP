@@ -1,0 +1,66 @@
+﻿@model IEnumerable<FuelGarage.Domain.ViewModels.OrderViewModel>
+
+@{
+    ViewData["Title"] = "Заказы";
+    Layout = "_CustomerLayout";
+}
+
+<h1>Заказы</h1>
+
+<p>
+    <a asp-action="CreateOrder">Оформить новый заказ</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Топливо
+            </th>
+            <th>
+                Количество
+            </th>
+            <th>
+                Статус
+            </th>
+            <th>
+                Адрес
+            </th>
+            <th>
+                Дата оформления
+            </th>
+            <th>
+                Дата доставки 
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FuelBrand)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FuelQuantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplicationTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LeadTime)
+            </td>
+            <td>
+                @Html.ActionLink("Изменить", "EditOrder", new {  id=item.Id }) |
+                @Html.ActionLink("Подробнее", "DetailsOrder", new { id = item.Id }) |
+                @Html.ActionLink("Удалить", "DeleteOrder", new { id = item.Id })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

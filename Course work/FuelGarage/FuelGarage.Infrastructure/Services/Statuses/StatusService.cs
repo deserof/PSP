@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using FuelGarage.Domain.Entities;
 
 namespace FuelGarage.Infrastructure.Services.Statuses
 {
@@ -15,6 +16,11 @@ namespace FuelGarage.Infrastructure.Services.Statuses
         public StatusService(GarageContext dbContext)
         {
             _dbContext = dbContext;
+        }
+
+        public List<Status> GetAll()
+        {
+            return _dbContext.Statuses.ToList();
         }
     }
 }

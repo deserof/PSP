@@ -5,14 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FuelGarage.Di\FuelGarage.Di.csproj" />
-    <ProjectReference Include="..\FuelGarage.Domain\FuelGarage.Domain.csproj" />
-    <ProjectReference Include="..\FuelGarage.Infrastructure\FuelGarage.Infrastructure.csproj" />
+    <Compile Remove="Views\User\**" />
+    <Content Remove="Views\User\**" />
+    <EmbeddedResource Remove="Views\User\**" />
+    <None Remove="Views\User\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Admin\" />
-    <Folder Include="Views\User\" />
+    <ProjectReference Include="..\FuelGarage.Di\FuelGarage.Di.csproj" />
+    <ProjectReference Include="..\FuelGarage.Domain\FuelGarage.Domain.csproj" />
+    <ProjectReference Include="..\FuelGarage.Infrastructure\FuelGarage.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

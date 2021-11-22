@@ -14,6 +14,8 @@ namespace FuelGarage.Domain.Entities
 
         public int FuelId { get; set; }
 
+        public int FuelQuantity { get; set; }
+
         public int StatusId { get; set; }
 
         public string OrderAddress { get; set; }

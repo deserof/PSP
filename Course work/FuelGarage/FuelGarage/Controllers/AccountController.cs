@@ -1,4 +1,5 @@
 ﻿using FuelGarage.Domain.Entities;
+using FuelGarage.Domain.Enums;
 using FuelGarage.Domain.ViewModels;
 using FuelGarage.Infrastructure.Services.Users;
 using Microsoft.AspNetCore.Authentication;
@@ -23,6 +24,14 @@ namespace FuelGarage.Controllers
         }
 
         [HttpGet]
+        public JsonResult UserName()
+        {
+            UserEmail userEmail = new UserEmail();
+            userEmail.Email = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultNameClaimType).Value;
+            return Json(userEmail);
+        }
+
+        [HttpGet]
         public IActionResult Login()
         {
             return View();
@@ -38,9 +47,23 @@ namespace FuelGarage.Controllers
 
                 if (user != null)
                 {
-                    Authenticate(model.Email); // аутентификация
+                    var userRole = _userService.GetUserRoleByEmail(model.Email);
+                    Authenticate(model.Email, userRole); // аутентификация
 
-                    return RedirectToAction("Index", "Home");
+                    if (userRole == "customer")
+                    {
+                        return RedirectToAction("Index", "Customer");
+                    }
+
+                    if (userRole == "driver")
+                    {
+                        return RedirectToAction("Index", "Driver");
+                    }
+
+                    if (userRole == "admin")
+                    {
+                        return RedirectToAction("Index", "Admin");
+                    }
                 }
 
                 ModelState.AddModelError("", "Некорректные логин и(или) пароль");
@@ -72,10 +95,11 @@ namespace FuelGarage.Controllers
                         LastName = model.LastName,
                         MiddleName = model.MiddleName,
                         Phone = model.Phone,
-                        RoleId = 2
+                        RoleId = (int)RoleType.Customer
                     });
 
-                    Authenticate(model.Email); // аутентификация
+                    var userRole = _userService.GetUserRoleByEmail(model.Email);
+                    Authenticate(model.Email, userRole); // аутентификация
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -85,12 +109,13 @@ namespace FuelGarage.Controllers
             return View(model);
         }
 
-        private void Authenticate(string userName)
+        private void Authenticate(string userName, string userRole)
         {
             // создаем один claim
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
+                new Claim(ClaimsIdentity.DefaultNameClaimType, userName),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, userRole)
             };
             // создаем объект ClaimsIdentity
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
