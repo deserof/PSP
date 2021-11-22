@@ -27,7 +27,7 @@ namespace FuelGarage.Controllers
         public JsonResult UserName()
         {
             UserEmail userEmail = new UserEmail();
-            userEmail.Email = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultNameClaimType).Value;
+            userEmail.Email = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultNameClaimType)?.Value;
             return Json(userEmail);
         }
 

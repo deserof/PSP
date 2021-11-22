@@ -35,6 +35,8 @@ namespace FuelGarage.Controllers
 
         private void SetLayout()
         {
+            ViewBag.Layout = "_AnonymousLayout";
+
             if (User.Identity.IsAuthenticated)
             {
                 var email = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultNameClaimType).Value;
@@ -44,21 +46,17 @@ namespace FuelGarage.Controllers
                 {
                     ViewBag.Layout = "_CustomerLayout";
                 }
-                else if (role == "admin")
+
+                if (role == "admin")
                 {
                     ViewBag.Layout = "_AdminLayout";
                 }
-                else if (role == "driver")
+
+                if (role == "driver")
                 {
                     ViewBag.Layout = "_DriverLayout";
                 }
-                else
-                {
-                    ViewBag.Layout = "_AnonymousLayout";
-                }
             }
-
-            ViewBag.Layout = "_AnonymousLayout";
         }
     }
 }
