@@ -44,17 +44,21 @@ namespace FuelGarage.Controllers
                 {
                     ViewBag.Layout = "_CustomerLayout";
                 }
-
-                if (role == "admin")
+                else if (role == "admin")
                 {
                     ViewBag.Layout = "_AdminLayout";
                 }
-
-                if (role == "driver")
+                else if (role == "driver")
                 {
                     ViewBag.Layout = "_DriverLayout";
                 }
+                else
+                {
+                    ViewBag.Layout = "_AnonymousLayout";
+                }
             }
+
+            ViewBag.Layout = "_AnonymousLayout";
         }
     }
 }
