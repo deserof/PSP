@@ -1,0 +1,10 @@
+﻿body {
+    background-image: url('../img/library.jpg');
+    background-position: center;
+    background-size: cover;
+    -webkit-font-smoothing: antialiased;
+}
+
+.row1 {
+    background: white;
+}
