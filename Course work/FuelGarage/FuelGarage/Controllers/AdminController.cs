@@ -10,6 +10,8 @@ using FuelGarage.Domain.Enums;
 using FuelGarage.Domain.ViewModels;
 using FuelGarage.Infrastructure.Services.Fuels;
 using FuelGarage.Infrastructure.Services.Orders;
+using FuelGarage.Infrastructure.Services.Statuses;
+using FuelGarage.Infrastructure.Services.Users;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace FuelGarage.Controllers
@@ -19,12 +21,19 @@ namespace FuelGarage.Controllers
     {
         private protected IFuelService _fuelService;
         private protected IOrderService _orderService;
+        private protected IStatusService _statusService;
+        private protected IUserService _userService;
 
-        public AdminController(IFuelService fuelService, IOrderService orderService)
+        public AdminController(
+            IFuelService fuelService,
+            IOrderService orderService,
+            IStatusService statusService,
+            IUserService userService)
         {
             _fuelService = fuelService;
             _orderService = orderService;
-
+            _statusService = statusService;
+            _userService = userService;
         }
 
         public IActionResult Index()
@@ -151,14 +160,14 @@ namespace FuelGarage.Controllers
             //model.StatusId = (int)StatusType.Open;
             //model.CustomerId = user.Id;
             _orderService.Create(model);
-            return RedirectToAction("Index");
+            return RedirectToAction("ListOrder");
         }
 
         [HttpGet]
         public IActionResult DeleteOrder(int id)
         {
             _orderService.Delete(id);
-            return RedirectToAction("Index");
+            return RedirectToAction("ListOrder");
         }
 
         [HttpGet]
@@ -166,7 +175,11 @@ namespace FuelGarage.Controllers
         {
             var model = _orderService.GetById(id);
             var fuels = _fuelService.GetAll();
+            var status = _statusService.GetAll();
+            var driver = _userService.GetAll();
             ViewBag.Fuels = new SelectList(fuels, "Id", "Brand");
+            ViewBag.Status = new SelectList(status, "Id", "StatusName");
+            ViewBag.Driver = new SelectList(driver, "Id", "Brand");
 
             return View(model);
         }
@@ -174,11 +187,9 @@ namespace FuelGarage.Controllers
         [HttpPost]
         public IActionResult EditOrder(Order model)
         {
-            model.StatusId = (int)StatusType.Open;
             _orderService.Edit(model);
-            return RedirectToAction("index");
+            return RedirectToAction("ListOrder");
         }
-
 
         [HttpGet]
         public IActionResult DetailsOrder(int id)
