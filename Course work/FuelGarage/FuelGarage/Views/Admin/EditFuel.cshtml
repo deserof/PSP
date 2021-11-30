@@ -1,0 +1,43 @@
+﻿@model FuelGarage.Domain.ViewModels.FuelViewModel
+
+@{
+    ViewData["Title"] = "EditFuel";
+    Layout = "_AdminLayout";
+}
+
+<h1>EditFuel</h1>
+
+<h4>FuelViewModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditFuel">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label">Название</label>
+                <input asp-for="Brand" class="form-control" />
+                <span asp-validation-for="Brand" class="text-danger"></span>
+            </div>
+            <div class="form-group">Описание</label>
+                <input asp-for="FuelDescription" class="form-control" />
+                <span asp-validation-for="FuelDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Количество</label>
+                <input asp-for="Quantity" class="form-control" />
+                <span asp-validation-for="Quantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="ListFuel">Назад</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
