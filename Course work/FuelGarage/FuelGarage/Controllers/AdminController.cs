@@ -13,6 +13,7 @@ using FuelGarage.Infrastructure.Services.Orders;
 using FuelGarage.Infrastructure.Services.Statuses;
 using FuelGarage.Infrastructure.Services.Users;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using FuelGarage.Infrastructure.Services.Vehicles;
 
 namespace FuelGarage.Controllers
 {
@@ -23,17 +24,20 @@ namespace FuelGarage.Controllers
         private protected IOrderService _orderService;
         private protected IStatusService _statusService;
         private protected IUserService _userService;
+        private protected IVehicleService _vehicleService;
 
         public AdminController(
             IFuelService fuelService,
             IOrderService orderService,
             IStatusService statusService,
-            IUserService userService)
+            IUserService userService,
+            IVehicleService vehicleService)
         {
             _fuelService = fuelService;
             _orderService = orderService;
             _statusService = statusService;
             _userService = userService;
+            _vehicleService = vehicleService;
         }
 
         public IActionResult Index()
@@ -41,7 +45,7 @@ namespace FuelGarage.Controllers
             return View();
         }
 
-#region Fuel
+        #region Fuel
 
         [HttpGet]
         public IActionResult ListFuel()
@@ -118,7 +122,7 @@ namespace FuelGarage.Controllers
         }
         #endregion
 
-#region  Order
+        #region  Order
         [HttpGet]
         public IActionResult ListOrder()
         {
@@ -130,7 +134,7 @@ namespace FuelGarage.Controllers
                 orderViewModels.Add(new AdminOrderViewModel()
                 {
                     Id = order.Id,
-                    Customer = order.Customer.LastName+" "+ order.Customer.FirstName[0]+". "+order.Customer.MiddleName[0]+"." ?? string.Empty,
+                    Customer = order.Customer.LastName + " " + order.Customer.FirstName[0] + ". " + order.Customer.MiddleName[0] + "." ?? string.Empty,
                     ApplicationTime = order.ApplicationTime,
                     FuelBrand = order.Fuel.Brand ?? string.Empty,
                     FuelQuantity = order.Fuel.Quantity,
@@ -214,6 +218,108 @@ namespace FuelGarage.Controllers
 
             return View(orderViewModel);
         }
+
+        #endregion
+
+        #region Customer
+
+        [HttpGet]
+        public IActionResult ListCustomer()
+        {
+            var users = _userService.GetAll();
+            var models = new List<AdminCustomerViewModel>();
+            foreach (var user in users)
+            {
+                var model = new AdminCustomerViewModel()
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    MiddleName = user.MiddleName,
+                    Phone = user.Phone,
+                    Role = user.Role.RoleName
+                };
+                models.Add(model);
+            }
+            return View(models);
+        }
+
+        [HttpGet]
+        public IActionResult CreateCustomer()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CreateCustomer(AdminCustomerViewModel model)
+        {
+            var user = new User()
+            {
+                Id = model.Id,
+                Email = model.Email,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                MiddleName = model.MiddleName,
+                Phone = model.Phone,
+                RoleId = (int)RoleType.Customer
+            };
+            _userService.Create(user);
+            return RedirectToAction("ListCustomer");
+        }
+
+        [HttpGet]
+        public IActionResult EditCustomer(int id)
+        {
+            var user = _userService.GetById(id);
+            var model = new AdminCustomerViewModel()
+            {
+                Id = user.Id,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                MiddleName = user.MiddleName,
+                Phone = user.Phone,
+                Role = user.Role.RoleName
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult EditCustomer(AdminCustomerViewModel model)
+        {
+            var user = new User()
+            {
+                Id = model.Id,
+                Email = model.Email,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                MiddleName = model.MiddleName,
+                Phone = model.Phone,
+                RoleId = (int)RoleType.Customer
+            };
+            _userService.Edit(user);
+            return RedirectToAction("ListCustomer");
+        }
+
+        [HttpGet]
+        public IActionResult DeleteCustomer(int id)
+        {
+            _userService.Delete(id);
+            return RedirectToAction("ListCustomer");
+        }
+
+        #endregion
+
+        #region Driver
+
+
+        #endregion
+
+        #region Vehicle
+
+
+
         #endregion
     }
 }

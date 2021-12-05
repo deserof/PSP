@@ -33,7 +33,10 @@ namespace FuelGarage.Infrastructure.Services.Users
 
         public List<User> GetAll()
         {
-            return _dbContext.Users.ToList();
+            return _dbContext.Users
+                .Include(x => x.Role)
+                .Include(x => x.Vehicle)
+                .ToList();
         }
 
         public User GetByEmail(string email)
@@ -43,7 +46,11 @@ namespace FuelGarage.Infrastructure.Services.Users
 
         public User GetById(int id)
         {
-            return _dbContext.Users.Where(x => x.Id == id).FirstOrDefault();
+            return _dbContext.Users
+                .Where(x => x.Id == id)
+                .Include(x => x.Role)
+                .Include(x => x.Vehicle)
+                .FirstOrDefault();
         }
 
         public User GetUserByEmailAndPAssword(string email, string password)
@@ -53,11 +60,11 @@ namespace FuelGarage.Infrastructure.Services.Users
 
         public string GetUserRoleByEmail(string email)
         {
-            var user = _dbContext.Users.Include(x=>x.Role).Where(x => x.Email.Equals(email)).FirstOrDefault();
+            var user = _dbContext.Users.Include(x => x.Role).Where(x => x.Email.Equals(email)).FirstOrDefault();
             return user.Role.RoleName;
         }
 
-        public void Update(User user)
+        public void Edit(User user)
         {
             _dbContext.Update(user);
             _dbContext.SaveChanges();

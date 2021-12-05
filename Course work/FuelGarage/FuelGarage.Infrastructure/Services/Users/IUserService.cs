@@ -17,7 +17,7 @@ namespace FuelGarage.Infrastructure.Services.Users
 
         string GetUserRoleByEmail(string email);
 
-        void Update(User user);
+        void Edit(User user);
 
         void Delete(int id);
 
