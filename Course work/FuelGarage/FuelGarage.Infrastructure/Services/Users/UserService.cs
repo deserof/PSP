@@ -1,11 +1,8 @@
-﻿using FuelGarage.Infrastructure.Db;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using FuelGarage.Domain.Entities;
+using FuelGarage.Infrastructure.Db;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using FuelGarage.Domain.Entities;
 
 namespace FuelGarage.Infrastructure.Services.Users
 {
@@ -24,6 +21,14 @@ namespace FuelGarage.Infrastructure.Services.Users
             _dbContext.SaveChanges();
         }
 
+        public string GetUserPassword(int id)
+        {
+            var user = _dbContext.Users
+                .AsNoTracking()
+                .FirstOrDefault(x => x.Id == id);
+            return user.UserPassword;
+        }
+
         public void Delete(int id)
         {
             var user = GetById(id);
@@ -36,12 +41,15 @@ namespace FuelGarage.Infrastructure.Services.Users
             return _dbContext.Users
                 .Include(x => x.Role)
                 .Include(x => x.Vehicle)
+                .AsNoTracking()
                 .ToList();
         }
 
         public User GetByEmail(string email)
         {
-            return _dbContext.Users.Where(x => x.Email.Equals(email)).FirstOrDefault();
+            return _dbContext.Users
+                .AsNoTracking()
+                .FirstOrDefault(x => x.Email.Equals(email));
         }
 
         public User GetById(int id)
@@ -50,18 +58,24 @@ namespace FuelGarage.Infrastructure.Services.Users
                 .Where(x => x.Id == id)
                 .Include(x => x.Role)
                 .Include(x => x.Vehicle)
+                .AsNoTracking()
                 .FirstOrDefault();
         }
 
-        public User GetUserByEmailAndPAssword(string email, string password)
+        public User GetUserByEmailAndPassword(string email, string password)
         {
-            return _dbContext.Users.Where(x => x.Email.Equals(email) && x.UserPassword.Equals(password)).FirstOrDefault();
+            return _dbContext.Users
+                .AsNoTracking()
+                .FirstOrDefault(x => x.Email.Equals(email) && x.UserPassword.Equals(password));
         }
 
         public string GetUserRoleByEmail(string email)
         {
-            var user = _dbContext.Users.Include(x => x.Role).Where(x => x.Email.Equals(email)).FirstOrDefault();
-            return user.Role.RoleName;
+            var user = _dbContext.Users
+                .Include(x => x.Role)
+                .AsNoTracking()
+                .FirstOrDefault(x => x.Email.Equals(email));
+            return user?.Role.RoleName;
         }
 
         public void Edit(User user)

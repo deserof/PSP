@@ -28,7 +28,7 @@ namespace FuelGarage.Infrastructure.Services.Fuels
 
         public void Delete(int id)
         {
-            var fuel = _dbContext.Fuels.Where(x => x.Id == id).FirstOrDefault();
+            var fuel = _dbContext.Fuels.FirstOrDefault(x => x.Id == id);
             _dbContext.Fuels.Remove(fuel);
             _dbContext.SaveChanges();
         }
@@ -41,7 +41,7 @@ namespace FuelGarage.Infrastructure.Services.Fuels
 
         public Fuel GetById(int id)
         {
-            return _dbContext.Fuels.Where(x => x.Id == id).FirstOrDefault();
+            return _dbContext.Fuels.FirstOrDefault(x => x.Id == id);
         }
     }
 }

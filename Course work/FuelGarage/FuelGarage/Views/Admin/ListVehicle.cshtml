@@ -1,0 +1,42 @@
+﻿@model IEnumerable<FuelGarage.Domain.ViewModels.VehicleViewModel>
+
+@{
+    ViewData["Title"] = "ListVehicle";
+    Layout = "_AdminLayout";
+}
+
+<h1>
+    Машины
+</h1>
+<p>
+    <a asp-action="CreateVehicle">Добавить машину</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Марка
+            </th>
+            <th>
+                Модель
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Brand)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Model)
+            </td>
+            <td>
+                @Html.ActionLink("Редактировать", "EditVehicle", new { id=item.Id }) |
+                @Html.ActionLink("Удалить", "DeleteVehicle", new { id=item.Id })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

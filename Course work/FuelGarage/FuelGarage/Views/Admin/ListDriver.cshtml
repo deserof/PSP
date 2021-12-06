@@ -1,0 +1,72 @@
+﻿@model IEnumerable<FuelGarage.Domain.ViewModels.AdminDriverViewModel>
+
+@{
+    ViewData["Title"] = "ListDriver";
+    Layout = "_AdminLayout";
+}
+
+<h1>Водители</h1>
+
+<p>
+    <a asp-action="CreateDriver">Добавить водителя</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Role)
+            </th>
+            <th>
+                Имя
+            </th>
+            <th>
+                Фамилия
+            </th>
+            <th>
+                Отчество
+            </th>
+            <th>
+                Почта
+            </th>
+            <th>
+                Телефон
+            </th>
+            <th>
+                Машина
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Role)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MiddleName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Vehicle)
+            </td>
+            <td>
+                @Html.ActionLink("Редактирова", "EditDriver", new { id=item.Id }) |
+                @*@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |*@
+                @Html.ActionLink("Удалить", "DeleteDriver", new { id = item.Id })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -43,12 +43,12 @@ namespace FuelGarage.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = _userService.GetUserByEmailAndPAssword(model.Email, model.Password);
+                User user = _userService.GetUserByEmailAndPassword(model.Email, model.Password);
 
                 if (user != null)
                 {
                     var userRole = _userService.GetUserRoleByEmail(model.Email);
-                    Authenticate(model.Email, userRole); // аутентификация
+                    Authenticate(model.Email, userRole);
 
                     if (userRole == "customer")
                     {
@@ -86,7 +86,6 @@ namespace FuelGarage.Controllers
                 User user = _userService.GetByEmail(model.Email);
                 if (user == null)
                 {
-                    // добавляем пользователя в бд
                     _userService.Create(new User
                     {
                         Email = model.Email,
@@ -99,7 +98,7 @@ namespace FuelGarage.Controllers
                     });
 
                     var userRole = _userService.GetUserRoleByEmail(model.Email);
-                    Authenticate(model.Email, userRole); // аутентификация
+                    Authenticate(model.Email, userRole);
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -111,15 +110,14 @@ namespace FuelGarage.Controllers
 
         private void Authenticate(string userName, string userRole)
         {
-            // создаем один claim
             var claims = new List<Claim>
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, userName),
                 new Claim(ClaimsIdentity.DefaultRoleClaimType, userRole)
             };
-            // создаем объект ClaimsIdentity
+
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
-            // установка аутентификационных куки
+
             HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
 

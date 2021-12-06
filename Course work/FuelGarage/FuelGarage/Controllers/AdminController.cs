@@ -1,19 +1,17 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using FuelGarage.Domain.Entities;
+﻿using FuelGarage.Domain.Entities;
 using FuelGarage.Domain.Enums;
 using FuelGarage.Domain.ViewModels;
 using FuelGarage.Infrastructure.Services.Fuels;
 using FuelGarage.Infrastructure.Services.Orders;
 using FuelGarage.Infrastructure.Services.Statuses;
 using FuelGarage.Infrastructure.Services.Users;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using FuelGarage.Infrastructure.Services.Vehicles;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace FuelGarage.Controllers
 {
@@ -242,7 +240,8 @@ namespace FuelGarage.Controllers
                 };
                 models.Add(model);
             }
-            return View(models);
+            var customers = models.Where(x => x.Role == "customer");
+            return View(customers);
         }
 
         [HttpGet]
@@ -262,7 +261,8 @@ namespace FuelGarage.Controllers
                 LastName = model.LastName,
                 MiddleName = model.MiddleName,
                 Phone = model.Phone,
-                RoleId = (int)RoleType.Customer
+                RoleId = (int)RoleType.Customer,
+                UserPassword = model.Password
             };
             _userService.Create(user);
             return RedirectToAction("ListCustomer");
@@ -298,6 +298,8 @@ namespace FuelGarage.Controllers
                 Phone = model.Phone,
                 RoleId = (int)RoleType.Customer
             };
+
+            user.UserPassword = _userService.GetUserPassword(model.Id);
             _userService.Edit(user);
             return RedirectToAction("ListCustomer");
         }
@@ -313,12 +315,197 @@ namespace FuelGarage.Controllers
 
         #region Driver
 
+        [HttpGet]
+        public IActionResult ListDriver()
+        {
+            var users = _userService.GetAll();
+            var models = new List<AdminDriverViewModel>();
+            foreach (var user in users)
+            {
+                var model = new AdminDriverViewModel
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    MiddleName = user.MiddleName,
+                    Phone = user.Phone,
+                    Role = user.Role.RoleName,
+                    Vehicle = user?.Vehicle?.Brand + " " + user.Vehicle?.Model ?? "без машины"
+                };
+
+                models.Add(model);
+            }
+            var drivers = models.Where(x => x.Role == "driver");
+            return View(drivers);
+        }
+
+        [HttpGet]
+        public IActionResult CreateDriver()
+        {
+            var vehicles = _vehicleService.GetAll();
+            var models = new List<VehicleViewModel>();
+            foreach (var veh in vehicles)
+            {
+                var model = new VehicleViewModel
+                {
+                    Id = veh.Id,
+                    Name = veh.Brand + " " + veh.Model
+                };
+                models.Add(model);
+            }
+            ViewBag.Vehicle = new SelectList(models, "Id", "Name");
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CreateDriver(AdminDriverViewModel model)
+        {
+            var user = new User
+            {
+                Id = model.Id,
+                Email = model.Email,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                MiddleName = model.MiddleName,
+                Phone = model.Phone,
+                RoleId = (int)RoleType.Driver,
+                UserPassword = model.Password,
+                VehicleId = model.VehicleId
+            };
+            _userService.Create(user);
+            return RedirectToAction("ListDriver");
+        }
+
+        [HttpGet]
+        public IActionResult EditDriver(int id)
+        {
+            var vehicles = _vehicleService.GetAll();
+            var user = _userService.GetById(id);
+            var model = new AdminDriverViewModel
+            {
+                Id = user.Id,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                MiddleName = user.MiddleName,
+                Phone = user.Phone,
+                Role = user.Role.RoleName
+            };
+            var vehicleModels = new List<VehicleViewModel>();
+            foreach (var veh in vehicles)
+            {
+                var vehicleModel = new VehicleViewModel
+                {
+                    Id = veh.Id,
+                    Name = veh.Brand + " " + veh.Model
+                };
+                vehicleModels.Add(vehicleModel);
+            }
+            ViewBag.Vehicle = new SelectList(vehicleModels, "Id", "Name");
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult EditDriver(AdminDriverViewModel model)
+        {
+            var user = new User
+            {
+                Id = model.Id,
+                Email = model.Email,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                MiddleName = model.MiddleName,
+                Phone = model.Phone,
+                RoleId = (int)RoleType.Driver,
+                UserPassword = _userService.GetUserPassword(model.Id),
+                VehicleId = model.VehicleId
+            };
+
+            _userService.Edit(user);
+            return RedirectToAction("ListDriver");
+        }
+
+        [HttpGet]
+        public IActionResult DeleteDriver(int id)
+        {
+            _userService.Delete(id);
+            return RedirectToAction("ListDriver");
+        }
 
         #endregion
 
         #region Vehicle
 
+        [HttpGet]
+        public IActionResult ListVehicle()
+        {
+            var vehicles = _vehicleService.GetAll();
+            var models = new List<VehicleViewModel>();
+            foreach (var vehicle in vehicles)
+            {
+                var model = new VehicleViewModel()
+                {
+                    Id = vehicle.Id,
+                    Brand = vehicle.Brand,
+                    Model = vehicle.Model
+                };
+                models.Add(model);
+            }
+            return View(models);
+        }
 
+        [HttpGet]
+        public IActionResult CreateVehicle()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CreateVehicle(VehicleViewModel model)
+        {
+            var vehicle = new Vehicle
+            {
+                Id = model.Id,
+                Brand = model.Brand,
+                Model = model.Model
+            };
+            _vehicleService.Create(vehicle);
+            return RedirectToAction("ListVehicle");
+        }
+
+        [HttpGet]
+        public IActionResult EditVehicle(int id)
+        {
+            var vehicle = _vehicleService.GetById(id);
+            var model = new VehicleViewModel
+            {
+                Id = vehicle.Id,
+                Brand = vehicle.Brand,
+                Model = vehicle.Model
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult EditVehicle(VehicleViewModel model)
+        {
+            var vehicle = new Vehicle
+            {
+                Id = model.Id,
+                Brand = model.Brand,
+                Model = model.Model
+            };
+            _vehicleService.Edit(vehicle);
+            return RedirectToAction("ListVehicle");
+        }
+
+        [HttpGet]
+        public IActionResult DeleteVehicle(int id)
+        {
+            _vehicleService.Delete(id);
+            return RedirectToAction("ListVehicle");
+        }
 
         #endregion
     }

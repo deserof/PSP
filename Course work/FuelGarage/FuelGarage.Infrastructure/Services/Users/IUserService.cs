@@ -11,7 +11,7 @@ namespace FuelGarage.Infrastructure.Services.Users
 
         User GetById(int id);
 
-        User GetUserByEmailAndPAssword(string email, string password);
+        User GetUserByEmailAndPassword(string email, string password);
 
         User GetByEmail(string email);
 
@@ -22,5 +22,7 @@ namespace FuelGarage.Infrastructure.Services.Users
         void Delete(int id);
 
         void Create(User user);
+
+        string GetUserPassword(int id);
     }
 }
