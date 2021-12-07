@@ -21,6 +21,6 @@ namespace FuelGarage.Infrastructure.Services.Orders
 
         List<Order> GetByCustomerId(int id);
 
-        void EditStatusById(int id, int statusId);
+        void EditStatusById(int id, int statusId, Status status);
     }
 }

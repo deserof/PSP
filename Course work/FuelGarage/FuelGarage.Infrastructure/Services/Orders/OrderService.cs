@@ -22,6 +22,7 @@ namespace FuelGarage.Infrastructure.Services.Orders
             _dbContext.Update(fuelCount);
             _dbContext.SaveChanges();
         }
+
         public void Create(Order order)
         {
             _dbContext.Add(order);
@@ -56,12 +57,12 @@ namespace FuelGarage.Infrastructure.Services.Orders
         public Order GetById(int id)
         {
             return _dbContext.Orders.Where(x => x.Id == id)
-                 .Include(x => x.Customer)
-                 .Include(x => x.Driver)
-                 .Include(x => x.Fuel)
-                 .Include(x => x.Status)
-                 .AsNoTracking()
-                 .FirstOrDefault();
+                .Include(x => x.Customer)
+                .Include(x => x.Driver)
+                .Include(x => x.Fuel)
+                .Include(x => x.Status)
+                .AsNoTracking()
+                .FirstOrDefault();
         }
 
         public List<Order> GetByCustomerId(int id)
@@ -75,10 +76,10 @@ namespace FuelGarage.Infrastructure.Services.Orders
                 .Where(x => x.CustomerId == id).ToList();
         }
 
-        public void EditStatusById(int id, int statusId)
+        public void EditStatusById(int id, int statusId, Status status)
         {
             var order = GetById(id);
-            order.StatusId = statusId;
+            order.Status = status;
             _dbContext.Orders.Update(order);
             _dbContext.SaveChanges();
         }

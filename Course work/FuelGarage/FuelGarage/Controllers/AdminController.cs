@@ -41,13 +41,14 @@ namespace FuelGarage.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var orders = _orderService.GetAll().Where(x=>x.DriverId is null);
+            var orders = _orderService.GetAll().Where(x=>x.DriverId is null && x.StatusId == (int)StatusType.Open);
             var status = _statusService.GetAll();
             var newOrders = new List<NewOrderViewModel>();
             foreach (var order in orders)
             {
                 var newOrder = new NewOrderViewModel
                 {
+                    Id = order.Id,
                     FuelQuantity = order.FuelQuantity,
                     CustomerPhone = order.Customer.Phone,
                     Address = order.OrderAddress,
@@ -65,8 +66,9 @@ namespace FuelGarage.Controllers
         [HttpPost]
         public IActionResult Index(NewOrderViewModel item)
         {
-            _orderService.EditStatusById(item.Id, item.StatusId);
-            return View();
+            var status = _statusService.GetAll().FirstOrDefault(x => x.Id == item.StatusId);
+            _orderService.EditStatusById(item.Id, item.StatusId, status);
+            return RedirectToAction("Index");
         }
 
         #region Fuel
