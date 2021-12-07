@@ -63,9 +63,9 @@ namespace FuelGarage.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(NewOrderViewModel model)
+        public IActionResult Index(NewOrderViewModel item)
         {
-            _orderService.EditStatusById(model.Id, model.StatusId);
+            _orderService.EditStatusById(item.Id, item.StatusId);
             return View();
         }
 
