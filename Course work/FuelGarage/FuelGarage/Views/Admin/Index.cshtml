@@ -1,4 +1,73 @@
-﻿@{
-    ViewData["Title"] = "Админ";
+﻿@model IEnumerable<FuelGarage.Domain.ViewModels.NewOrderViewModel>
+
+@{
+    ViewData["Title"] = "Index";
     Layout = "_AdminLayout";
 }
+
+<h1>Новые заказы</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Адрес
+            </th>
+            <th>
+                Топливо
+            </th>
+            <th>
+                Количество
+            </th>
+            <th>
+                Заказчик
+            </th>
+            <th>
+                Телефон
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FuelName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FuelQuantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerPhone)
+                </td>
+                <td>
+                    <form asp-action="Index">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="@item.Id" value="@item.Id" />
+                        <input type="hidden" asp-for="@item.FuelQuantity" value="@item.FuelQuantity" />
+                        <input type="hidden" asp-for="@item.CustomerPhone" value="@item.CustomerPhone" />
+                        <input type="hidden" asp-for="@item.Address" value="@item.Address" />
+                        <input type="hidden" asp-for="@item.CustomerName" value="@item.CustomerName" />
+                        <input type="hidden" asp-for="@item.FuelName" value="@item.FuelName" />
+
+                        <div class="form-group">
+                            <label class="control-label">Статус</label>
+                            <select asp-for="@item.StatusId" asp-items="ViewBag.Status"></select>
+                            <span asp-validation-for="@item.StatusId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Изменить статус" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

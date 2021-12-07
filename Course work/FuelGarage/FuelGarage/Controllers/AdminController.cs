@@ -38,8 +38,34 @@ namespace FuelGarage.Controllers
             _vehicleService = vehicleService;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
+            var orders = _orderService.GetAll().Where(x=>x.DriverId is null);
+            var status = _statusService.GetAll();
+            var newOrders = new List<NewOrderViewModel>();
+            foreach (var order in orders)
+            {
+                var newOrder = new NewOrderViewModel
+                {
+                    FuelQuantity = order.FuelQuantity,
+                    CustomerPhone = order.Customer.Phone,
+                    Address = order.OrderAddress,
+                    CustomerName =
+                        order.Customer.LastName + " " + order.Customer.FirstName[0] + ". " +
+                        order.Customer.MiddleName[0] + "." ?? string.Empty,
+                    FuelName = order.Fuel.Brand
+                };
+                newOrders.Add(newOrder);
+            }
+            ViewBag.Status = new SelectList(status, "Id", "StatusName");
+            return View(newOrders);
+        }
+
+        [HttpPost]
+        public IActionResult Index(NewOrderViewModel model)
+        {
+            _orderService.EditStatusById(model.Id, model.StatusId);
             return View();
         }
 
@@ -178,10 +204,20 @@ namespace FuelGarage.Controllers
             var model = _orderService.GetById(id);
             var fuels = _fuelService.GetAll();
             var status = _statusService.GetAll();
-            var driver = _userService.GetAll();
+            var drivers = _userService.GetAll().Where(x=>x.Role.RoleName == "driver");
+            var driverModels = new List<DriverFullNameViewModel>();
+            foreach (var driver in drivers)
+            {
+                var modelDr = new DriverFullNameViewModel
+                {
+                    Id = driver.Id,
+                    Name = driver.LastName + " " + driver.FirstName + " " + driver.MiddleName
+                };
+                driverModels.Add(modelDr);
+            }
             ViewBag.Fuels = new SelectList(fuels, "Id", "Brand");
             ViewBag.Status = new SelectList(status, "Id", "StatusName");
-            ViewBag.Driver = new SelectList(driver, "Id", "Brand");
+            ViewBag.Driver = new SelectList(driverModels, "Id", "Name");
 
             return View(model);
         }
@@ -201,6 +237,10 @@ namespace FuelGarage.Controllers
             AdminOrderViewModel orderViewModel = new AdminOrderViewModel()
             {
                 Id = model.Id,
+                CustomerFirstName = model.Customer.FirstName ?? string.Empty,
+                CustomerLastName = model.Customer.LastName ?? string.Empty,
+                CustomerMiddleName = model.Customer.MiddleName ?? string.Empty,
+                CustomerPhone = model.Customer.Phone ?? string.Empty,
                 ApplicationTime = model.ApplicationTime,
                 DriverFirstName = model.Driver?.FirstName ?? string.Empty,
                 DriverLastName = model.Driver?.LastName ?? string.Empty,
@@ -322,6 +362,15 @@ namespace FuelGarage.Controllers
             var models = new List<AdminDriverViewModel>();
             foreach (var user in users)
             {
+                var vehName = string.Empty;
+                if (user.Vehicle is null)
+                {
+                    vehName = "без машины";
+                }
+                else
+                {
+                    vehName = user.Vehicle.Brand + " " + user.Vehicle.Model;
+                }
                 var model = new AdminDriverViewModel
                 {
                     Id = user.Id,
@@ -331,7 +380,7 @@ namespace FuelGarage.Controllers
                     MiddleName = user.MiddleName,
                     Phone = user.Phone,
                     Role = user.Role.RoleName,
-                    Vehicle = user?.Vehicle?.Brand + " " + user.Vehicle?.Model ?? "без машины"
+                    Vehicle = vehName
                 };
 
                 models.Add(model);
@@ -448,7 +497,7 @@ namespace FuelGarage.Controllers
                 {
                     Id = vehicle.Id,
                     Brand = vehicle.Brand,
-                    Model = vehicle.Model
+                    VehicleModel = vehicle.Model
                 };
                 models.Add(model);
             }
@@ -468,7 +517,7 @@ namespace FuelGarage.Controllers
             {
                 Id = model.Id,
                 Brand = model.Brand,
-                Model = model.Model
+                Model = model.VehicleModel
             };
             _vehicleService.Create(vehicle);
             return RedirectToAction("ListVehicle");
@@ -482,7 +531,7 @@ namespace FuelGarage.Controllers
             {
                 Id = vehicle.Id,
                 Brand = vehicle.Brand,
-                Model = vehicle.Model
+                VehicleModel = vehicle.Model
             };
             return View(model);
         }
@@ -494,7 +543,7 @@ namespace FuelGarage.Controllers
             {
                 Id = model.Id,
                 Brand = model.Brand,
-                Model = model.Model
+                Model = model.VehicleModel
             };
             _vehicleService.Edit(vehicle);
             return RedirectToAction("ListVehicle");

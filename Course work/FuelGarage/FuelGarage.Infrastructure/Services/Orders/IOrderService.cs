@@ -9,6 +9,8 @@ namespace FuelGarage.Infrastructure.Services.Orders
     {
         List<Order> GetAll();
 
+        public void EditFuel(int id, int fuelCount);
+
         void Create(Order order);
 
         void Edit(Order order);
@@ -18,5 +20,7 @@ namespace FuelGarage.Infrastructure.Services.Orders
         Order GetById(int id);
 
         List<Order> GetByCustomerId(int id);
+
+        void EditStatusById(int id, int statusId);
     }
 }

@@ -5,9 +5,8 @@
     Layout = "_AdminLayout";
 }
 
-<h1>EditFuel</h1>
+<h1>Редактировать топливо</h1>
 
-<h4>FuelViewModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -18,7 +17,8 @@
                 <input asp-for="Brand" class="form-control" />
                 <span asp-validation-for="Brand" class="text-danger"></span>
             </div>
-            <div class="form-group">Описание</label>
+            <div class="form-group">
+                <label class="control-label">Описание</label>
                 <input asp-for="FuelDescription" class="form-control" />
                 <span asp-validation-for="FuelDescription" class="text-danger"></span>
             </div>

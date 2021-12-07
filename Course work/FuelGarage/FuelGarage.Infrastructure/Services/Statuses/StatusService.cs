@@ -1,11 +1,8 @@
-﻿using FuelGarage.Infrastructure.Db;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using FuelGarage.Domain.Entities;
+using FuelGarage.Infrastructure.Db;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using FuelGarage.Domain.Entities;
 
 namespace FuelGarage.Infrastructure.Services.Statuses
 {
@@ -20,7 +17,9 @@ namespace FuelGarage.Infrastructure.Services.Statuses
 
         public List<Status> GetAll()
         {
-            return _dbContext.Statuses.ToList();
+            return _dbContext.Statuses
+                .AsNoTracking()
+                .ToList();
         }
     }
 }

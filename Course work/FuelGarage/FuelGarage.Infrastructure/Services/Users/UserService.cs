@@ -29,6 +29,11 @@ namespace FuelGarage.Infrastructure.Services.Users
             return user.UserPassword;
         }
 
+        public void EditFuel(int userId, int fuelCount, int fuelCurrent)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void Delete(int id)
         {
             var user = GetById(id);

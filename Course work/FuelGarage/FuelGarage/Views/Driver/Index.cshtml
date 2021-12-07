@@ -1,4 +1,91 @@
-﻿@{
-    ViewData["Title"] = "Водитель";
+﻿@model IEnumerable<FuelGarage.Domain.ViewModels.DriverOrderViewModel>
+
+@{
+    ViewData["Title"] = "Index";
     Layout = "_DriverLayout";
 }
+
+<h1>@*Index*@</h1>
+
+@*<p>
+    <a asp-action="Create">Create New</a>
+</p>*@
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            Имя заказчика
+        </th>
+        <th>
+            Фамилия заказчика
+        </th>
+        <th>
+            Отчество заказчика
+        </th>
+        <th>
+            Телефон
+        </th>
+        <th>
+            Топливо
+        </th>
+        <th>
+            Количество
+        </th>
+        <th>
+            Статус
+        </th>
+        <th>
+            Адрес
+        </th>
+        <th>
+            Описание
+        </th>
+        <th>
+            Дата оформления
+        </th>
+        <th>
+            Дата доставки
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerFirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerLastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerMiddleName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerPhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FuelBrand)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FuelQuantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplicationTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LeadTime)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

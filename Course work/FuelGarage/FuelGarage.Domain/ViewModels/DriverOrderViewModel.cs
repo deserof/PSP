@@ -4,17 +4,17 @@ using System.Text;
 
 namespace FuelGarage.Domain.ViewModels
 {
-    public class OrderViewModel
+    public class DriverOrderViewModel
     {
         public int Id { get; set; }
 
-        public string DriverFirstName { get; set; }
+        public string CustomerFirstName { get; set; }
 
-        public string DriverLastName { get; set; }
+        public string CustomerLastName { get; set; }
 
-        public string DriverMiddleName { get; set; }
+        public string CustomerMiddleName { get; set; }
 
-        public string DriverPhone{ get; set; }
+        public string CustomerPhone { get; set; }
 
         public string FuelBrand { get; set; }
 

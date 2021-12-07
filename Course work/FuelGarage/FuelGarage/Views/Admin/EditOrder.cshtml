@@ -12,25 +12,16 @@
     <div class="col-md-4">
         <form asp-action="EditOrder">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="CustomerId" value="@Model.CustomerId" />
             <div class="form-group">
                 <label class="control-label">Статус</label>
                 <select asp-for="StatusId" asp-items="ViewBag.Status"></select>
                 <span asp-validation-for="StatusId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Топливо</label>
-                <select asp-for="FuelId" asp-items="ViewBag.Fuel"></select>
-                <span asp-validation-for="FuelId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label">Водитель</label>
                 <select asp-for="DriverId" asp-items="ViewBag.Driver"></select>
                 <span asp-validation-for="DriverId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Статус</label>
-                <select asp-for="StatusId" asp-items="ViewBag.Status"></select>
-                <span asp-validation-for="StatusId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label">Топливо</label>
@@ -70,7 +61,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Назад</a>
+    <a asp-action="ListOrder">Назад</a>
 </div>
 
 @section Scripts {

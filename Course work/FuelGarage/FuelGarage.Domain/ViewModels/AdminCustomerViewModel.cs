@@ -21,6 +21,7 @@ namespace FuelGarage.Domain.ViewModels
         public string MiddleName { get; set; }
 
         [Required(ErrorMessage = "Не указана почта")]
+        [EmailAddress(ErrorMessage = "Неправильный Email")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Не указан телефон")]

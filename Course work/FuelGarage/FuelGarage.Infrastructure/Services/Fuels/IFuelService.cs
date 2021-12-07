@@ -16,5 +16,9 @@ namespace FuelGarage.Infrastructure.Services.Fuels
         void Edit(Fuel fue);
 
         Fuel GetById(int id);
+
+        bool EraseFuel(int id, int count);
+
+        bool EditFuelFromCustomer(int id, int count, int current);
     }
 }

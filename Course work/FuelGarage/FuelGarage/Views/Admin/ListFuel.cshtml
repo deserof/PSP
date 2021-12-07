@@ -5,7 +5,7 @@
     Layout = "_AdminLayout";
 }
 
-<h1>FuelList</h1>
+<h1>Топливо</h1>
 
 <p>
     <a asp-action="CreateFuel">Добавить топливо</a>
@@ -38,8 +38,8 @@
                 @Html.DisplayFor(modelItem => item.Quantity)
             </td>
             <td>
-                @Html.ActionLink("Edit", "EditFuel", new { id=item.Id }) |
-                @Html.ActionLink("Delete", "DeleteFuel", new { id = item.Id })
+                @Html.ActionLink("Редактировать", "EditFuel", new { id=item.Id }) |
+                @Html.ActionLink("Удалить", "DeleteFuel", new { id = item.Id })
             </td>
         </tr>
 }

@@ -5,17 +5,15 @@
     Layout = "_AdminLayout";
 }
 
-<h1>CreateCustomer</h1>
+<h1>Добавить заказчика</h1>
 
-<h4>Добавить заказчика</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="CreateCustomer">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Role" value="@Model.Role" />
             <div class="form-group">
-                <label asp-for="LastName" class="control-label">\Фамилия</label>
+                <label asp-for="LastName" class="control-label">Фамилия</label>
                 <input asp-for="LastName" class="form-control" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>

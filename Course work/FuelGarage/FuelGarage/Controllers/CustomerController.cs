@@ -39,19 +39,19 @@ namespace FuelGarage.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            List<OrderViewModel> orderViewModels = new List<OrderViewModel>();
+            List<CustomerOrderViewModel> orderViewModels = new List<CustomerOrderViewModel>();
             var email = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultNameClaimType).Value;
             var user = _userService.GetByEmail(email);
 
             var orders = _orderService.GetByCustomerId(user.Id);
             foreach (var order in orders)
             {
-                orderViewModels.Add(new OrderViewModel()
+                orderViewModels.Add(new CustomerOrderViewModel()
                 {
                     Id = order.Id,
                     ApplicationTime = order.ApplicationTime,
                     FuelBrand = order.Fuel.Brand ?? string.Empty,
-                    FuelQuantity = order.Fuel.Quantity,
+                    FuelQuantity = order.FuelQuantity,
                     LeadTime = order.LeadTime,
                     OrderAddress = order.OrderAddress,
                     OrderDescription = order.OrderDescription,
@@ -73,6 +73,13 @@ namespace FuelGarage.Controllers
         [HttpPost]
         public IActionResult CreateOrder(Order model)
         {
+            if (!_fuelService.EraseFuel(model.FuelId, model.FuelQuantity) || model.FuelQuantity <= 0)
+            {
+                ModelState.AddModelError("", "У нас нет столько топлива :-(");
+                var fuels = _fuelService.GetAll();
+                ViewBag.Fuels = new SelectList(fuels, "Id", "Brand");
+                return View();
+            }
             var email = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultNameClaimType).Value;
             var user = _userService.GetByEmail(email);
             model.StatusId = (int)StatusType.Open;
@@ -94,13 +101,22 @@ namespace FuelGarage.Controllers
             var model = _orderService.GetById(id);
             var fuels = _fuelService.GetAll();
             ViewBag.Fuels = new SelectList(fuels, "Id", "Brand");
-
             return View(model);
         }
 
         [HttpPost]
         public IActionResult EditOrder(Order model)
         {
+            var fuelCurrent = _orderService.GetById(model.Id).FuelQuantity;
+            if (!_fuelService.EditFuelFromCustomer(model.FuelId, model.FuelQuantity, fuelCurrent) || model.FuelQuantity <= 0)
+            {
+                var fuels = _fuelService.GetAll();
+                ViewBag.Fuels = new SelectList(fuels, "Id", "Brand");
+                ModelState.AddModelError("", "У нас нет столько топлива :-(");
+                ViewBag.Fuels = new SelectList(fuels, "Id", "Brand");
+                return View(model);
+            }
+            _orderService.EditFuel(model.Id, model.FuelQuantity);
             model.StatusId = (int)StatusType.Open;
             _orderService.Edit(model);
             return RedirectToAction("index");
@@ -112,7 +128,7 @@ namespace FuelGarage.Controllers
         {
             var model = _orderService.GetById(id);
 
-            OrderViewModel orderViewModel = new OrderViewModel()
+            CustomerOrderViewModel orderViewModel = new CustomerOrderViewModel()
             {
                 Id = model.Id,
                 ApplicationTime = model.ApplicationTime,
