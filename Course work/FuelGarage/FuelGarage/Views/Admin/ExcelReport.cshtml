@@ -1,0 +1,12 @@
+﻿@model IEnumerable<FuelGarage.Domain.Entities.Fuel>
+
+@{
+    ViewData["Title"] = "ExcelReport";
+    Layout = "_AdminLayout";
+}
+
+<h1>Excel отчет</h1>
+
+
+@Html.ActionLink("Скачать", "DownloadExcelReport", "Admin")
+

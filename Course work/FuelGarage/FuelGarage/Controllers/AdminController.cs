@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace FuelGarage.Controllers
@@ -38,10 +39,12 @@ namespace FuelGarage.Controllers
             _vehicleService = vehicleService;
         }
 
+        #region NewOrder
+
         [HttpGet]
         public IActionResult Index()
         {
-            var orders = _orderService.GetAll().Where(x=>x.DriverId is null && x.StatusId == (int)StatusType.Open);
+            var orders = _orderService.GetAll().Where(x => x.DriverId is null && x.StatusId == (int)StatusType.Open);
             var status = _statusService.GetAll();
             var newOrders = new List<NewOrderViewModel>();
             foreach (var order in orders)
@@ -70,6 +73,8 @@ namespace FuelGarage.Controllers
             _orderService.EditStatusById(item.Id, item.StatusId, status);
             return RedirectToAction("Index");
         }
+
+        #endregion
 
         #region Fuel
 
@@ -556,6 +561,32 @@ namespace FuelGarage.Controllers
         {
             _vehicleService.Delete(id);
             return RedirectToAction("ListVehicle");
+        }
+
+        #endregion
+
+        #region ExcelReport
+
+        [HttpGet]
+        public IActionResult ExcelReport()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult DownloadExcelReport()
+        {
+            var file = _orderService.GenerateExcelReport();
+            using(var stream = new MemoryStream())
+            {
+                file.SaveAs(stream);
+                var content = stream.ToArray();
+
+                file.Dispose();
+                return File(content, 
+                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    "Report.xlsx");
+            }
         }
 
         #endregion
