@@ -37,7 +37,7 @@ namespace Library.Controllers
             var reader = new ReaderList()
             {
                 Address = model.Address,
-                FirstName = model.Address,
+                FirstName = model.FirstName,
                 MiddleName = model.MiddleName,
                 LastName = model.LastName
             };
