@@ -6,5 +6,6 @@ namespace Library.Infrastructure.Services.Interfaces
     {
         void MinusBook(int id);
         bool IsBookGreaterThenZero(int id);
+        void PlusBook(int id);
     }
 }

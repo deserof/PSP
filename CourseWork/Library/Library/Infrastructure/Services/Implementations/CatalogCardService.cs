@@ -59,6 +59,16 @@ namespace Library.Infrastructure.Services.Implementations
             _db.SaveChanges();
         }
 
+        public void PlusBook(int id)
+        {
+            var catalog = _db.CatalogCards.Where(x => x.Id == id).FirstOrDefault();
+
+            catalog.QantityOfBook += 1;
+
+            _db.Update(catalog);
+            _db.SaveChanges();
+        }
+
         public bool IsBookGreaterThenZero(int id)
         {
             var catalog = _db.CatalogCards.Where(x => x.Id == id).FirstOrDefault();

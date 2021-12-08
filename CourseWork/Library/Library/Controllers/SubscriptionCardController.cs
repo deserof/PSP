@@ -131,12 +131,15 @@ namespace Library.Controllers
         {
             _subscriptionCardService.Edit(model);
 
+            //if()
+
             return RedirectToAction("List");
         }
 
         [HttpGet]
         public IActionResult Delete(int id)
         {
+            _catalogCardService.PlusBook(_subscriptionCardService.GetById(id).CatalogCardId);
             _subscriptionCardService.Delete(id);
             return RedirectToAction("List");
         }
