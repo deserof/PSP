@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using TradeCompany.Infrastructure.Services.Shops;
 using TradeCompany.Models;
 
 namespace TradeCompany.Controllers
@@ -12,14 +13,18 @@ namespace TradeCompany.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IShopService _shopService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger,
+            IShopService shopService)
         {
+            _shopService = shopService;
             _logger = logger;
         }
 
         public IActionResult Index()
         {
+            _shopService.GetAll();
             return View();
         }
 
