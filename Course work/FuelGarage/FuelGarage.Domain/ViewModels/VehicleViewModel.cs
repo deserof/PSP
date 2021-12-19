@@ -15,6 +15,6 @@ namespace FuelGarage.Domain.ViewModels
         public string Brand { get; set; }
 
         [Required(ErrorMessage = "Не указана модель")]
-        public string VehicleModel { get; set; }
+        public string Model { get; set; }
     }
 }

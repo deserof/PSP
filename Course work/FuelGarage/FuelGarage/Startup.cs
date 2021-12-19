@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using FuelGarage.AutoMapper;
 using FuelGarage.Di;
 using FuelGarage.Infrastructure.Db;
 using Microsoft.EntityFrameworkCore;
@@ -40,6 +42,15 @@ namespace FuelGarage
 
             services.RegisterDi();
             services.AddControllersWithViews();
+
+            // Auto Mapper Configurations
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new AutoMapperProfile());
+            });
+
+            var mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

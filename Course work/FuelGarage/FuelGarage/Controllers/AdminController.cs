@@ -9,34 +9,37 @@ using FuelGarage.Infrastructure.Services.Vehicles;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using AutoMapper;
 
 namespace FuelGarage.Controllers
 {
     [Authorize(Roles = "admin")]
     public class AdminController : Controller
     {
-        private protected IFuelService _fuelService;
-        private protected IOrderService _orderService;
-        private protected IStatusService _statusService;
-        private protected IUserService _userService;
-        private protected IVehicleService _vehicleService;
+        private readonly IFuelService _fuelService;
+        private readonly IOrderService _orderService;
+        private readonly IStatusService _statusService;
+        private readonly IUserService _userService;
+        private readonly IVehicleService _vehicleService;
+        private readonly IMapper _mapper;
 
         public AdminController(
             IFuelService fuelService,
             IOrderService orderService,
             IStatusService statusService,
             IUserService userService,
-            IVehicleService vehicleService)
+            IVehicleService vehicleService,
+            IMapper mapper)
         {
             _fuelService = fuelService;
             _orderService = orderService;
             _statusService = statusService;
             _userService = userService;
             _vehicleService = vehicleService;
+            _mapper = mapper;
         }
 
         #region NewOrder
@@ -46,22 +49,7 @@ namespace FuelGarage.Controllers
         {
             var orders = _orderService.GetAll().Where(x => x.DriverId is null && x.StatusId == (int)StatusType.Open);
             var status = _statusService.GetAll();
-            var newOrders = new List<NewOrderViewModel>();
-            foreach (var order in orders)
-            {
-                var newOrder = new NewOrderViewModel
-                {
-                    Id = order.Id,
-                    FuelQuantity = order.FuelQuantity,
-                    CustomerPhone = order.Customer.Phone,
-                    Address = order.OrderAddress,
-                    CustomerName =
-                        order.Customer.LastName + " " + order.Customer.FirstName[0] + ". " +
-                        order.Customer.MiddleName[0] + "." ?? string.Empty,
-                    FuelName = order.Fuel.Brand
-                };
-                newOrders.Add(newOrder);
-            }
+            var newOrders = _mapper.Map<IEnumerable<NewOrderViewModel>>(orders);
             ViewBag.Status = new SelectList(status, "Id", "StatusName");
             return View(newOrders);
         }
@@ -82,18 +70,7 @@ namespace FuelGarage.Controllers
         public IActionResult ListFuel()
         {
             var fuels = _fuelService.GetAll();
-            var models = new List<FuelViewModel>();
-            foreach (var fuel in fuels)
-            {
-                var model = new FuelViewModel()
-                {
-                    Id = fuel.Id,
-                    Brand = fuel.Brand,
-                    FuelDescription = fuel.FuelDescription,
-                    Quantity = fuel.Quantity
-                };
-                models.Add(model);
-            }
+            var models = _mapper.Map<IEnumerable<FuelViewModel>>(fuels);
             return View(models);
         }
 
@@ -106,13 +83,7 @@ namespace FuelGarage.Controllers
         [HttpPost]
         public IActionResult CreateFuel(FuelViewModel model)
         {
-            var fuel = new Fuel()
-            {
-                Id = model.Id,
-                Brand = model.Brand,
-                FuelDescription = model.FuelDescription,
-                Quantity = model.Quantity
-            };
+            var fuel = _mapper.Map<Fuel>(model);
             _fuelService.Create(fuel);
             return RedirectToAction("ListFuel");
         }
@@ -121,26 +92,14 @@ namespace FuelGarage.Controllers
         public IActionResult EditFuel(int id)
         {
             var fuel = _fuelService.GetById(id);
-            var model = new FuelViewModel()
-            {
-                Id = fuel.Id,
-                Brand = fuel.Brand,
-                FuelDescription = fuel.FuelDescription,
-                Quantity = fuel.Quantity
-            };
+            var model = _mapper.Map<FuelViewModel>(fuel);
             return View(model);
         }
 
         [HttpPost]
         public IActionResult EditFuel(FuelViewModel model)
         {
-            var fuel = new Fuel()
-            {
-                Id = model.Id,
-                Brand = model.Brand,
-                FuelDescription = model.FuelDescription,
-                Quantity = model.Quantity
-            };
+            var fuel = _mapper.Map<Fuel>(model);
             _fuelService.Edit(fuel);
             return RedirectToAction("ListFuel");
         }
@@ -157,24 +116,8 @@ namespace FuelGarage.Controllers
         [HttpGet]
         public IActionResult ListOrder()
         {
-            List<AdminOrderViewModel> orderViewModels = new List<AdminOrderViewModel>();
             var orders = _orderService.GetAll();
-
-            foreach (var order in orders)
-            {
-                orderViewModels.Add(new AdminOrderViewModel()
-                {
-                    Id = order.Id,
-                    Customer = order.Customer.LastName + " " + order.Customer.FirstName[0] + ". " + order.Customer.MiddleName[0] + "." ?? string.Empty,
-                    ApplicationTime = order.ApplicationTime,
-                    FuelBrand = order.Fuel.Brand ?? string.Empty,
-                    FuelQuantity = order.Fuel.Quantity,
-                    LeadTime = order.LeadTime,
-                    OrderAddress = order.OrderAddress,
-                    OrderDescription = order.OrderDescription,
-                    Status = order.Status?.StatusName ?? string.Empty
-                });
-            }
+            var orderViewModels = _mapper.Map<IEnumerable<AdminOrderViewModel>>(orders);
 
             return View(orderViewModels);
         }
@@ -211,17 +154,9 @@ namespace FuelGarage.Controllers
             var model = _orderService.GetById(id);
             var fuels = _fuelService.GetAll();
             var status = _statusService.GetAll();
-            var drivers = _userService.GetAll().Where(x=>x.Role.RoleName == "driver");
-            var driverModels = new List<DriverFullNameViewModel>();
-            foreach (var driver in drivers)
-            {
-                var modelDr = new DriverFullNameViewModel
-                {
-                    Id = driver.Id,
-                    Name = driver.LastName + " " + driver.FirstName + " " + driver.MiddleName
-                };
-                driverModels.Add(modelDr);
-            }
+            var drivers = _userService.GetAll().Where(x => x.Role.RoleName == "driver");
+            var driverModels = _mapper.Map<IEnumerable<DriverFullNameViewModel>>(drivers);
+
             ViewBag.Fuels = new SelectList(fuels, "Id", "Brand");
             ViewBag.Status = new SelectList(status, "Id", "StatusName");
             ViewBag.Driver = new SelectList(driverModels, "Id", "Name");
@@ -240,26 +175,7 @@ namespace FuelGarage.Controllers
         public IActionResult DetailsOrder(int id)
         {
             var model = _orderService.GetById(id);
-
-            AdminOrderViewModel orderViewModel = new AdminOrderViewModel()
-            {
-                Id = model.Id,
-                CustomerFirstName = model.Customer.FirstName ?? string.Empty,
-                CustomerLastName = model.Customer.LastName ?? string.Empty,
-                CustomerMiddleName = model.Customer.MiddleName ?? string.Empty,
-                CustomerPhone = model.Customer.Phone ?? string.Empty,
-                ApplicationTime = model.ApplicationTime,
-                DriverFirstName = model.Driver?.FirstName ?? string.Empty,
-                DriverLastName = model.Driver?.LastName ?? string.Empty,
-                DriverMiddleName = model.Driver?.MiddleName ?? string.Empty,
-                DriverPhone = model.Driver?.Phone ?? string.Empty,
-                FuelBrand = model.Fuel.Brand ?? string.Empty,
-                FuelQuantity = model.Fuel.Quantity,
-                LeadTime = model.LeadTime,
-                OrderAddress = model.OrderAddress,
-                OrderDescription = model.OrderDescription,
-                Status = model.Status?.StatusName ?? string.Empty
-            };
+            var orderViewModel = _mapper.Map<AdminOrderViewModel>(model);
 
             return View(orderViewModel);
         }
@@ -272,21 +188,7 @@ namespace FuelGarage.Controllers
         public IActionResult ListCustomer()
         {
             var users = _userService.GetAll();
-            var models = new List<AdminCustomerViewModel>();
-            foreach (var user in users)
-            {
-                var model = new AdminCustomerViewModel()
-                {
-                    Id = user.Id,
-                    Email = user.Email,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    MiddleName = user.MiddleName,
-                    Phone = user.Phone,
-                    Role = user.Role.RoleName
-                };
-                models.Add(model);
-            }
+            var models = _mapper.Map<IEnumerable<AdminCustomerViewModel>>(users);
             var customers = models.Where(x => x.Role == "customer");
             return View(customers);
         }
@@ -300,18 +202,10 @@ namespace FuelGarage.Controllers
         [HttpPost]
         public IActionResult CreateCustomer(AdminCustomerViewModel model)
         {
-            var user = new User()
-            {
-                Id = model.Id,
-                Email = model.Email,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                MiddleName = model.MiddleName,
-                Phone = model.Phone,
-                RoleId = (int)RoleType.Customer,
-                UserPassword = model.Password
-            };
+            var user = _mapper.Map<User>(model);
+            user.RoleId = (int)RoleType.Customer;
             _userService.Create(user);
+
             return RedirectToAction("ListCustomer");
         }
 
@@ -319,33 +213,15 @@ namespace FuelGarage.Controllers
         public IActionResult EditCustomer(int id)
         {
             var user = _userService.GetById(id);
-            var model = new AdminCustomerViewModel()
-            {
-                Id = user.Id,
-                Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                MiddleName = user.MiddleName,
-                Phone = user.Phone,
-                Role = user.Role.RoleName
-            };
+            var model = _mapper.Map<AdminCustomerViewModel>(user);
             return View(model);
         }
 
         [HttpPost]
         public IActionResult EditCustomer(AdminCustomerViewModel model)
         {
-            var user = new User()
-            {
-                Id = model.Id,
-                Email = model.Email,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                MiddleName = model.MiddleName,
-                Phone = model.Phone,
-                RoleId = (int)RoleType.Customer
-            };
-
+            var user = _mapper.Map<User>(model);
+            user.RoleId = (int)RoleType.Customer;
             user.UserPassword = _userService.GetUserPassword(model.Id);
             _userService.Edit(user);
             return RedirectToAction("ListCustomer");
@@ -366,32 +242,7 @@ namespace FuelGarage.Controllers
         public IActionResult ListDriver()
         {
             var users = _userService.GetAll();
-            var models = new List<AdminDriverViewModel>();
-            foreach (var user in users)
-            {
-                var vehName = string.Empty;
-                if (user.Vehicle is null)
-                {
-                    vehName = "без машины";
-                }
-                else
-                {
-                    vehName = user.Vehicle.Brand + " " + user.Vehicle.Model;
-                }
-                var model = new AdminDriverViewModel
-                {
-                    Id = user.Id,
-                    Email = user.Email,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    MiddleName = user.MiddleName,
-                    Phone = user.Phone,
-                    Role = user.Role.RoleName,
-                    Vehicle = vehName
-                };
-
-                models.Add(model);
-            }
+            var models = _mapper.Map<IEnumerable<AdminDriverViewModel>>(users);
             var drivers = models.Where(x => x.Role == "driver");
             return View(drivers);
         }
@@ -400,16 +251,7 @@ namespace FuelGarage.Controllers
         public IActionResult CreateDriver()
         {
             var vehicles = _vehicleService.GetAll();
-            var models = new List<VehicleViewModel>();
-            foreach (var veh in vehicles)
-            {
-                var model = new VehicleViewModel
-                {
-                    Id = veh.Id,
-                    Name = veh.Brand + " " + veh.Model
-                };
-                models.Add(model);
-            }
+            var models = _mapper.Map<IEnumerable<VehicleViewModel>>(vehicles);
             ViewBag.Vehicle = new SelectList(models, "Id", "Name");
             return View();
         }
@@ -417,18 +259,8 @@ namespace FuelGarage.Controllers
         [HttpPost]
         public IActionResult CreateDriver(AdminDriverViewModel model)
         {
-            var user = new User
-            {
-                Id = model.Id,
-                Email = model.Email,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                MiddleName = model.MiddleName,
-                Phone = model.Phone,
-                RoleId = (int)RoleType.Driver,
-                UserPassword = model.Password,
-                VehicleId = model.VehicleId
-            };
+            var user = _mapper.Map<User>(model);
+            user.RoleId = (int)RoleType.Driver;
             _userService.Create(user);
             return RedirectToAction("ListDriver");
         }
@@ -438,26 +270,8 @@ namespace FuelGarage.Controllers
         {
             var vehicles = _vehicleService.GetAll();
             var user = _userService.GetById(id);
-            var model = new AdminDriverViewModel
-            {
-                Id = user.Id,
-                Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                MiddleName = user.MiddleName,
-                Phone = user.Phone,
-                Role = user.Role.RoleName
-            };
-            var vehicleModels = new List<VehicleViewModel>();
-            foreach (var veh in vehicles)
-            {
-                var vehicleModel = new VehicleViewModel
-                {
-                    Id = veh.Id,
-                    Name = veh.Brand + " " + veh.Model
-                };
-                vehicleModels.Add(vehicleModel);
-            }
+            var model = _mapper.Map<AdminDriverViewModel>(user);
+            var vehicleModels = _mapper.Map<IEnumerable<VehicleViewModel>>(vehicles);
             ViewBag.Vehicle = new SelectList(vehicleModels, "Id", "Name");
             return View(model);
         }
@@ -465,19 +279,9 @@ namespace FuelGarage.Controllers
         [HttpPost]
         public IActionResult EditDriver(AdminDriverViewModel model)
         {
-            var user = new User
-            {
-                Id = model.Id,
-                Email = model.Email,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                MiddleName = model.MiddleName,
-                Phone = model.Phone,
-                RoleId = (int)RoleType.Driver,
-                UserPassword = _userService.GetUserPassword(model.Id),
-                VehicleId = model.VehicleId
-            };
-
+            var user = _mapper.Map<User>(model);
+            user.RoleId = (int)RoleType.Driver;
+            user.UserPassword = _userService.GetUserPassword(model.Id);
             _userService.Edit(user);
             return RedirectToAction("ListDriver");
         }
@@ -497,17 +301,7 @@ namespace FuelGarage.Controllers
         public IActionResult ListVehicle()
         {
             var vehicles = _vehicleService.GetAll();
-            var models = new List<VehicleViewModel>();
-            foreach (var vehicle in vehicles)
-            {
-                var model = new VehicleViewModel()
-                {
-                    Id = vehicle.Id,
-                    Brand = vehicle.Brand,
-                    VehicleModel = vehicle.Model
-                };
-                models.Add(model);
-            }
+            var models = _mapper.Map<IEnumerable<VehicleViewModel>>(vehicles);
             return View(models);
         }
 
@@ -520,12 +314,7 @@ namespace FuelGarage.Controllers
         [HttpPost]
         public IActionResult CreateVehicle(VehicleViewModel model)
         {
-            var vehicle = new Vehicle
-            {
-                Id = model.Id,
-                Brand = model.Brand,
-                Model = model.VehicleModel
-            };
+            var vehicle = _mapper.Map<Vehicle>(model);
             _vehicleService.Create(vehicle);
             return RedirectToAction("ListVehicle");
         }
@@ -534,24 +323,14 @@ namespace FuelGarage.Controllers
         public IActionResult EditVehicle(int id)
         {
             var vehicle = _vehicleService.GetById(id);
-            var model = new VehicleViewModel
-            {
-                Id = vehicle.Id,
-                Brand = vehicle.Brand,
-                VehicleModel = vehicle.Model
-            };
+            var model = _mapper.Map<VehicleViewModel>(vehicle);
             return View(model);
         }
 
         [HttpPost]
         public IActionResult EditVehicle(VehicleViewModel model)
         {
-            var vehicle = new Vehicle
-            {
-                Id = model.Id,
-                Brand = model.Brand,
-                Model = model.VehicleModel
-            };
+            var vehicle = _mapper.Map<Vehicle>(model);
             _vehicleService.Edit(vehicle);
             return RedirectToAction("ListVehicle");
         }
@@ -577,13 +356,13 @@ namespace FuelGarage.Controllers
         public IActionResult DownloadExcelReport()
         {
             var file = _orderService.GenerateExcelReport();
-            using(var stream = new MemoryStream())
+            using (var stream = new MemoryStream())
             {
                 file.SaveAs(stream);
                 var content = stream.ToArray();
 
                 file.Dispose();
-                return File(content, 
+                return File(content,
                     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                     "Report.xlsx");
             }

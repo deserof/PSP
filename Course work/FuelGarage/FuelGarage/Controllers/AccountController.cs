@@ -6,11 +6,8 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace FuelGarage.Controllers
 {
@@ -18,6 +15,7 @@ namespace FuelGarage.Controllers
     public class AccountController : Controller
     {
         private readonly IUserService _userService;
+
         public AccountController(IUserService userService)
         {
             _userService = userService;
@@ -26,8 +24,11 @@ namespace FuelGarage.Controllers
         [HttpGet]
         public JsonResult UserName()
         {
-            UserEmail userEmail = new UserEmail();
-            userEmail.Email = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultNameClaimType)?.Value;
+            var userEmail = new UserEmail
+            {
+                Email = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultNameClaimType)?.Value
+            };
+
             return Json(userEmail);
         }
 
@@ -41,33 +42,26 @@ namespace FuelGarage.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Login(LoginModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View(model);
+            var user = _userService.GetUserByEmailAndPassword(model.Email, model.Password);
+
+            if (user != null)
             {
-                User user = _userService.GetUserByEmailAndPassword(model.Email, model.Password);
+                var userRole = _userService.GetUserRoleByEmail(model.Email);
+                Authenticate(model.Email, userRole);
 
-                if (user != null)
+                switch (userRole)
                 {
-                    var userRole = _userService.GetUserRoleByEmail(model.Email);
-                    Authenticate(model.Email, userRole);
-
-                    if (userRole == "customer")
-                    {
+                    case "customer":
                         return RedirectToAction("Index", "Customer");
-                    }
-
-                    if (userRole == "driver")
-                    {
+                    case "driver":
                         return RedirectToAction("Index", "Driver");
-                    }
-
-                    if (userRole == "admin")
-                    {
+                    case "admin":
                         return RedirectToAction("Index", "Admin");
-                    }
                 }
-
-                ModelState.AddModelError("", "Некорректные логин и(или) пароль");
             }
+
+            ModelState.AddModelError("", "Некорректные логин и(или) пароль");
             return View(model);
         }
 
@@ -81,30 +75,30 @@ namespace FuelGarage.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Register(RegisterModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View(model);
+
+            var user = _userService.GetByEmail(model.Email);
+
+            if (user == null)
             {
-                User user = _userService.GetByEmail(model.Email);
-                if (user == null)
+                _userService.Create(new User
                 {
-                    _userService.Create(new User
-                    {
-                        Email = model.Email,
-                        UserPassword = model.Password,
-                        FirstName = model.FirstName,
-                        LastName = model.LastName,
-                        MiddleName = model.MiddleName,
-                        Phone = model.Phone,
-                        RoleId = (int)RoleType.Customer
-                    });
+                    Email = model.Email,
+                    UserPassword = model.Password,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    MiddleName = model.MiddleName,
+                    Phone = model.Phone,
+                    RoleId = (int)RoleType.Customer
+                });
 
-                    var userRole = _userService.GetUserRoleByEmail(model.Email);
-                    Authenticate(model.Email, userRole);
+                var userRole = _userService.GetUserRoleByEmail(model.Email);
+                Authenticate(model.Email, userRole);
 
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                    ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+                return RedirectToAction("Index", "Home");
             }
+            else
+                ModelState.AddModelError("", "Некорректные логин и(или) пароль");
             return View(model);
         }
 
@@ -116,7 +110,7 @@ namespace FuelGarage.Controllers
                 new Claim(ClaimsIdentity.DefaultRoleClaimType, userRole)
             };
 
-            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+            var id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
 
             HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
