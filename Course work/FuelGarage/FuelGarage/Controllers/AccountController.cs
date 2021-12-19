@@ -1,4 +1,5 @@
-﻿using FuelGarage.Domain.Entities;
+﻿using System;
+using FuelGarage.Domain.Entities;
 using FuelGarage.Domain.Enums;
 using FuelGarage.Domain.ViewModels;
 using FuelGarage.Infrastructure.Services.Users;
