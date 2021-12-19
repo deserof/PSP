@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FuelGarage.Domain.ViewModels
+﻿namespace FuelGarage.Domain.ViewModels
 {
     public class NewOrderViewModel
     {

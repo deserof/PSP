@@ -1,4 +1,5 @@
-﻿@model IEnumerable<FuelGarage.Domain.ViewModels.CustomerOrderViewModel>
+﻿@using FuelGarage.Extensions
+@model IEnumerable<FuelGarage.Domain.ViewModels.CustomerOrderViewModel>
 
 @{
     ViewData["Title"] = "Заказы";
@@ -50,10 +51,10 @@
                 @Html.DisplayFor(modelItem => item.OrderAddress)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ApplicationTime)
+                @item.ApplicationTime.ToNormalDate()
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.LeadTime)
+                @item.LeadTime.ToNormalDate()
             </td>
             <td>
                 @Html.ActionLink("Изменить", "EditOrder", new {  id=item.Id }) |

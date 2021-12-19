@@ -1,5 +1,6 @@
 ﻿using FuelGarage.Domain.Entities;
 using FuelGarage.Infrastructure.Db;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,7 +17,9 @@ namespace FuelGarage.Infrastructure.Services.Vehicles
 
         public List<Vehicle> GetAll()
         {
-            return _dbContext.Vehicles.ToList();
+            return _dbContext.Vehicles
+                .AsNoTracking()
+                .ToList();
         }
 
         public void Create(Vehicle vehicle)
@@ -40,7 +43,9 @@ namespace FuelGarage.Infrastructure.Services.Vehicles
 
         public Vehicle GetById(int id)
         {
-            return _dbContext.Vehicles.FirstOrDefault(x => x.Id == id);
+            return _dbContext.Vehicles
+                .AsNoTracking()
+                .FirstOrDefault(x => x.Id == id);
         }
     }
 }

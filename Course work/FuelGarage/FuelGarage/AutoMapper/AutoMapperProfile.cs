@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using FuelGarage.Domain.Entities;
-using FuelGarage.Domain.Enums;
 using FuelGarage.Domain.ViewModels;
 
 namespace FuelGarage.AutoMapper
@@ -62,7 +57,7 @@ namespace FuelGarage.AutoMapper
             CreateMap<User, DriverFullNameViewModel>()
                 .ForMember(x => x.Name,
                     map => map.MapFrom(s => $"{s.LastName} {s.FirstName} {s.MiddleName}"));
-            
+
             CreateMap<User, AdminCustomerViewModel>()
                 .ForMember(x => x.Role,
                     map => map.MapFrom(s => s.Role.RoleName));
@@ -82,6 +77,12 @@ namespace FuelGarage.AutoMapper
             CreateMap<VehicleViewModel, Vehicle>()
                 .ForMember(x => x.Model,
                 map => map.MapFrom(s => s.Model));
+
+            CreateMap<User, CustomerFullName>()
+                .ForMember(x => x.FullName,
+                    map => map.MapFrom(s => $"{s.LastName} {s.FirstName} {s.MiddleName}"))
+                .ForMember(x => x.Role,
+                map => map.MapFrom(s => s.Role.RoleName));
         }
     }
 }

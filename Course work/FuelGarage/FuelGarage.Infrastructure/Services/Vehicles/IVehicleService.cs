@@ -1,7 +1,5 @@
-﻿using System;
+﻿using FuelGarage.Domain.Entities;
 using System.Collections.Generic;
-using System.Text;
-using FuelGarage.Domain.Entities;
 
 namespace FuelGarage.Infrastructure.Services.Vehicles
 {

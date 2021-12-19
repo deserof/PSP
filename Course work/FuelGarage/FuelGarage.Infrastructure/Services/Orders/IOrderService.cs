@@ -1,7 +1,7 @@
-﻿using FuelGarage.Domain.Entities;
+﻿using ClosedXML.Excel;
+using FuelGarage.Domain.Entities;
+using FuelGarage.Domain.ViewModels;
 using System.Collections.Generic;
-using System.IO;
-using ClosedXML.Excel;
 
 namespace FuelGarage.Infrastructure.Services.Orders
 {
@@ -23,6 +23,6 @@ namespace FuelGarage.Infrastructure.Services.Orders
 
         void EditStatusById(int id, int statusId, Status status);
 
-        XLWorkbook GenerateExcelReport();
+        XLWorkbook GenerateExcelReport(Report model);
     }
 }

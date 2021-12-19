@@ -1,10 +1,8 @@
 ﻿using FuelGarage.Domain.Entities;
 using FuelGarage.Infrastructure.Db;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace FuelGarage.Infrastructure.Services.Fuels
 {
@@ -53,33 +51,21 @@ namespace FuelGarage.Infrastructure.Services.Fuels
         public bool EraseFuel(int id, int count)
         {
             var fuel = GetById(id);
-            if (fuel.Quantity - count > 0)
-            {
-                fuel.Quantity -= count;
-                _dbContext.Update(fuel);
-                _dbContext.SaveChanges();
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            if (fuel.Quantity - count <= 0) return false;
+            fuel.Quantity -= count;
+            _dbContext.Update(fuel);
+            _dbContext.SaveChanges();
+            return true;
         }
 
         public bool EditFuelFromCustomer(int id, int count, int current)
         {
             var fuel = GetById(id);
-            if (fuel.Quantity - (count - current) > 0)
-            {
-                fuel.Quantity -= (count - current);
-                _dbContext.Update(fuel);
-                _dbContext.SaveChanges();
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            if (fuel.Quantity - (count - current) <= 0) return false;
+            fuel.Quantity -= (count - current);
+            _dbContext.Update(fuel);
+            _dbContext.SaveChanges();
+            return true;
         }
     }
 }

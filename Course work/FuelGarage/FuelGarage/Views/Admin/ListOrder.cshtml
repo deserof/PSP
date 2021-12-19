@@ -1,4 +1,5 @@
-﻿@model IEnumerable<FuelGarage.Domain.ViewModels.AdminOrderViewModel>
+﻿@using FuelGarage.Extensions
+@model IEnumerable<FuelGarage.Domain.ViewModels.AdminOrderViewModel>
 
 @{
     ViewData["Title"] = "Заказы";
@@ -7,66 +8,98 @@
 
 <h1>Заказы</h1>
 
-@*<p>
-    <a asp-action="CreateOrder">Оформить новый заказ</a>
-</p>*@
+<form asp-action="ListOrder" method="get" class="form-inline ml-auto">
+    <div class="form-inline">
+        <input name="search" class="form-control" type="text" placeholder="Поиск" aria-label="Search">
+    </div>
+    <button class="btn btn-primary" type="submit">Поиск</button>
+</form>
+
 <table class="table">
     <thead>
-    <tr>
-        <th>
-            Заказчик
-        </th>
-        <th>
-            Топливо
-        </th>
-        <th>
-            Количество
-        </th>
-        <th>
-            Статус
-        </th>
-        <th>
-            Адрес
-        </th>
-        <th>
-            Дата оформления
-        </th>
-        <th>
-            Дата доставки
-        </th>
-        <th></th>
-    </tr>
+        <tr>
+            <th>
+                <nobr>
+                    Заказчик
+                    @Html.ActionLink("  ↑  ", "ListOrder", new { sortOrder = "customer_desc" })
+                    @Html.ActionLink("  ↓  ", "ListOrder", new { sortOrder = "customer_asc" })
+                </nobr>
+            </th>
+            <th>
+                <nobr>
+                    Топливо
+                    @Html.ActionLink("  ↑  ", "ListOrder", new { sortOrder = "fuel_desc" })
+                    @Html.ActionLink("  ↓  ", "ListOrder", new { sortOrder = "fuel_asc" })
+            </th>
+            <th>
+                <nobr>
+                    Количество
+                    @Html.ActionLink("  ↑  ", "ListOrder", new { sortOrder = "quantity_desc" })
+                    @Html.ActionLink("  ↓  ", "ListOrder", new { sortOrder = "quantity_asc" })
+                </nobr>
+            </th>
+            <th>
+                <nobr>
+                    Статус
+                    @Html.ActionLink("  ↑  ", "ListOrder", new { sortOrder = "status_desc" })
+                    @Html.ActionLink("  ↓  ", "ListOrder", new { sortOrder = "status_asc" })
+                </nobr>
+            </th>
+            <th>
+                <nobr>
+                    Адрес
+                    @Html.ActionLink("  ↑  ", "ListOrder", new { sortOrder = "address_desc" })
+                    @Html.ActionLink("  ↓  ", "ListOrder", new { sortOrder = "address_asc" })
+                </nobr>
+            </th>
+            <th>
+                <nobr>
+                    Дата оформления
+                    @Html.ActionLink("  ↑  ", "ListOrder", new { sortOrder = "app_date_desc" })
+                    @Html.ActionLink("  ↓  ", "ListOrder", new { sortOrder = "app_date_asc" })
+                </nobr>
+            </th>
+            <th>
+                <nobr>
+                    Дата доставки
+                    @Html.ActionLink("  ↑  ", "ListOrder", new { sortOrder = "lead_date_desc" })
+                    @Html.ActionLink("  ↓  ", "ListOrder", new { sortOrder = "lead_date_asc" })
+                </nobr>
+            </th>
+            <th></th>
+        </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Customer)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FuelBrand)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FuelQuantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderAddress)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ApplicationTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LeadTime)
-            </td>
-            <td>
-                @Html.ActionLink("Изменить", "EditOrder", new {id = item.Id}) |
-                @Html.ActionLink("Подробнее", "DetailsOrder", new {id = item.Id}) |
-                @Html.ActionLink("Удалить", "DeleteOrder", new {id = item.Id})
-            </td>
-        </tr>
-    }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Customer)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FuelBrand)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FuelQuantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderAddress)
+                </td>
+                <td>
+                    @item.ApplicationTime.ToNormalDate()
+                </td>
+                <td>
+                    @item.LeadTime.ToNormalDate()
+                </td>
+                <td>
+                    @Html.ActionLink("Изменить", "EditOrder", new { id = item.Id }) |
+                    @Html.ActionLink("Подробнее", "DetailsOrder", new { id = item.Id }) |
+                    @Html.ActionLink("Удалить", "DeleteOrder", new { id = item.Id })
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

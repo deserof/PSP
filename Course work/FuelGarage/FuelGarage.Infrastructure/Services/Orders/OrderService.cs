@@ -1,9 +1,9 @@
 ﻿using ClosedXML.Excel;
 using FuelGarage.Domain.Entities;
+using FuelGarage.Domain.ViewModels;
 using FuelGarage.Infrastructure.Db;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 
@@ -22,7 +22,7 @@ namespace FuelGarage.Infrastructure.Services.Orders
         {
             var order = GetById(id);
             order.FuelQuantity = fuelCount;
-            _dbContext.Update(fuelCount);
+            _dbContext.Orders.Update(order);
             _dbContext.SaveChanges();
         }
 
@@ -34,7 +34,7 @@ namespace FuelGarage.Infrastructure.Services.Orders
 
         public void Delete(int id)
         {
-            var order = _dbContext.Orders.Where(x => x.Id == id).FirstOrDefault();
+            var order = _dbContext.Orders.FirstOrDefault(x => x.Id == id);
             _dbContext.Remove(order);
             _dbContext.SaveChanges();
         }
@@ -47,7 +47,8 @@ namespace FuelGarage.Infrastructure.Services.Orders
 
         public List<Order> GetAll()
         {
-            var orders = _dbContext.Orders.Include(x => x.Status)
+            var orders = _dbContext.Orders
+                .Include(x => x.Status)
                 .Include(x => x.Fuel)
                 .Include(x => x.Customer)
                 .Include(x => x.Driver)
@@ -87,12 +88,24 @@ namespace FuelGarage.Infrastructure.Services.Orders
             _dbContext.SaveChanges();
         }
 
-        public XLWorkbook GenerateExcelReport()
+        public XLWorkbook GenerateExcelReport(Report report)
         {
             var orders = GetAll();
 
-            var workbook = new XLWorkbook();
+            if (report.ClientId != 0)
+            {
+                orders = orders
+                    .Where(x => x.CustomerId == report.ClientId && x.LeadTime >= report.From && x.LeadTime <= report.To)
+                    .ToList();
+            }
+            else
+            {
+                orders = orders
+                    .Where(x => x.LeadTime >= report.From && x.LeadTime <= report.To)
+                    .ToList();
+            }
 
+            var workbook = new XLWorkbook();
             var worksheet = workbook.Worksheets.Add("Заказы");
             var currentRow = 1;
 

@@ -8,6 +8,7 @@ using FuelGarage.Infrastructure.Services.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 
@@ -40,7 +41,6 @@ namespace FuelGarage.Controllers
             var user = _userService.GetByEmail(email);
             var orders = _orderService.GetByCustomerId(user.Id);
             var orderViewModels = _mapper.Map<IEnumerable<CustomerOrderViewModel>>(orders);
-
             return View(orderViewModels);
         }
 
@@ -63,6 +63,15 @@ namespace FuelGarage.Controllers
                 return View();
             }
 
+            if (model.LeadTime < DateTime.Now)
+            {
+                ModelState.AddModelError("", "Укажите корректную дату доставки");
+                var fuels = _fuelService.GetAll();
+                ViewBag.Fuels = new SelectList(fuels, "Id", "Brand");
+                return View();
+            }
+
+            model.ApplicationTime = DateTime.Now;
             var email = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultNameClaimType).Value;
             var user = _userService.GetByEmail(email);
             model.StatusId = (int)StatusType.Open;
@@ -101,7 +110,6 @@ namespace FuelGarage.Controllers
                 return View(model);
             }
 
-            _orderService.EditFuel(model.Id, model.FuelQuantity);
             model.StatusId = (int)StatusType.Open;
             _orderService.Edit(model);
             return RedirectToAction("index");

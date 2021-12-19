@@ -1,8 +1,5 @@
 ﻿using FuelGarage.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FuelGarage.Infrastructure.Db
 {

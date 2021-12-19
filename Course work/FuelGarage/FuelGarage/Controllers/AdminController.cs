@@ -1,4 +1,6 @@
-﻿using FuelGarage.Domain.Entities;
+﻿using AutoMapper;
+using ClosedXML.Excel;
+using FuelGarage.Domain.Entities;
 using FuelGarage.Domain.Enums;
 using FuelGarage.Domain.ViewModels;
 using FuelGarage.Infrastructure.Services.Fuels;
@@ -9,10 +11,10 @@ using FuelGarage.Infrastructure.Services.Vehicles;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using AutoMapper;
 
 namespace FuelGarage.Controllers
 {
@@ -25,6 +27,7 @@ namespace FuelGarage.Controllers
         private readonly IUserService _userService;
         private readonly IVehicleService _vehicleService;
         private readonly IMapper _mapper;
+        private XLWorkbook _file;
 
         public AdminController(
             IFuelService fuelService,
@@ -113,11 +116,40 @@ namespace FuelGarage.Controllers
         #endregion
 
         #region  Order
-        [HttpGet]
-        public IActionResult ListOrder()
+
+        public IActionResult ListOrder(string sortOrder, string search)
         {
             var orders = _orderService.GetAll();
             var orderViewModels = _mapper.Map<IEnumerable<AdminOrderViewModel>>(orders);
+            if (!string.IsNullOrEmpty(search))
+            {
+                orderViewModels = orderViewModels
+                    .Where(s => s.Status.Contains(search, StringComparison.InvariantCultureIgnoreCase)
+                    || s.CustomerFirstName.Contains(search, StringComparison.InvariantCultureIgnoreCase)
+                    || s.CustomerLastName.Contains(search, StringComparison.InvariantCultureIgnoreCase)
+                    || s.CustomerMiddleName.Contains(search, StringComparison.InvariantCultureIgnoreCase)
+                    || s.CustomerPhone.Contains(search, StringComparison.InvariantCultureIgnoreCase)
+                    || s.OrderAddress.Contains(search, StringComparison.InvariantCultureIgnoreCase));
+            }
+
+            orderViewModels = sortOrder switch
+            {
+                "customer_desc" => orderViewModels.OrderByDescending(s => s.Customer),
+                "customer_asc" => orderViewModels.OrderBy(s => s.Customer),
+                "fuel_desc" => orderViewModels.OrderByDescending(s => s.FuelBrand),
+                "fuel_asc" => orderViewModels.OrderBy(s => s.FuelBrand),
+                "quantity_desc" => orderViewModels.OrderByDescending(s => s.FuelQuantity),
+                "quantity_asc" => orderViewModels.OrderBy(s => s.FuelQuantity),
+                "status_desc" => orderViewModels.OrderByDescending(s => s.Status),
+                "status_asc" => orderViewModels.OrderBy(s => s.Status),
+                "address_desc" => orderViewModels.OrderByDescending(s => s.OrderAddress),
+                "address_asc" => orderViewModels.OrderBy(s => s.OrderAddress),
+                "app_date_desc" => orderViewModels.OrderByDescending(s => s.ApplicationTime),
+                "app_date_asc" => orderViewModels.OrderBy(s => s.ApplicationTime),
+                "lead_date_desc" => orderViewModels.OrderByDescending(s => s.LeadTime),
+                "lead_date_asc" => orderViewModels.OrderBy(s => s.LeadTime),
+                _ => orderViewModels.OrderBy(s => s.ApplicationTime)
+            };
 
             return View(orderViewModels);
         }
@@ -128,17 +160,6 @@ namespace FuelGarage.Controllers
             var fuels = _fuelService.GetAll();
             ViewBag.Fuels = new SelectList(fuels, "Id", "Brand");
             return View();
-        }
-
-        [HttpPost]
-        public IActionResult CreateOrder(Order model)
-        {
-            //var email = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultNameClaimType).Value;
-            //var user = _userService.GetByEmail(email);
-            //model.StatusId = (int)StatusType.Open;
-            //model.CustomerId = user.Id;
-            _orderService.Create(model);
-            return RedirectToAction("ListOrder");
         }
 
         [HttpGet]
@@ -349,23 +370,26 @@ namespace FuelGarage.Controllers
         [HttpGet]
         public IActionResult ExcelReport()
         {
+            var users = _userService.GetAll();
+            var models = _mapper.Map<IEnumerable<CustomerFullName>>(users);
+            var customers = models.Where(x => x.Role == "customer");
+            ViewBag.Clients = new SelectList(customers, "Id", "FullName");
             return View();
         }
 
         [HttpGet]
-        public IActionResult DownloadExcelReport()
+        public IActionResult DownloadExcelReport(Report model)
         {
-            var file = _orderService.GenerateExcelReport();
-            using (var stream = new MemoryStream())
-            {
-                file.SaveAs(stream);
-                var content = stream.ToArray();
+            var file = _orderService.GenerateExcelReport(model);
 
-                file.Dispose();
-                return File(content,
-                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                    "Report.xlsx");
-            }
+            using var stream = new MemoryStream();
+            file.SaveAs(stream);
+            var content = stream.ToArray();
+
+            file.Dispose();
+            return File(content,
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                "Report.xlsx");
         }
 
         #endregion

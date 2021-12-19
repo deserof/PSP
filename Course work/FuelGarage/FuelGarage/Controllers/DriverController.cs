@@ -31,7 +31,7 @@ namespace FuelGarage.Controllers
         {
             var email = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultNameClaimType).Value;
             var user = _userService.GetByEmail(email);
-            var orders = _orderService.GetAll().Where(x=>x.DriverId==user.Id);
+            var orders = _orderService.GetAll().Where(x => x.DriverId == user.Id);
             var orderViewModels = _mapper.Map<IEnumerable<DriverOrderViewModel>>(orders);
 
             return View(orderViewModels);

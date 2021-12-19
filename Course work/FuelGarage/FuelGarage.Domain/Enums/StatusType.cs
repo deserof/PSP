@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FuelGarage.Domain.Enums
+﻿namespace FuelGarage.Domain.Enums
 {
     public enum StatusType
     {
