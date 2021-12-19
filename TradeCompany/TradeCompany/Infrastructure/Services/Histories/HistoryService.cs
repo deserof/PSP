@@ -72,25 +72,17 @@ namespace TradeCompany.Infrastructure.Services.Histories
 
         public XLWorkbook GenerateExcelReport(int id)
         {
-            var histories = GetAll();
+            var histories = GetAll().Where(x=>x.Id==id);
 
             var workbook = new XLWorkbook();
-            var worksheet = workbook.Worksheets.Add("Заказы");
+            var worksheet = workbook.Worksheets.Add("history");
             var currentRow = 1;
 
-            worksheet.Cell(currentRow, 1).Value = "Имя заказчика";
-            worksheet.Cell(currentRow, 2).Value = "Фамилия заказчика";
-            worksheet.Cell(currentRow, 3).Value = "Отчество заказчика";
-            worksheet.Cell(currentRow, 4).Value = "Телефон заказчика";
-            worksheet.Cell(currentRow, 5).Value = "Адрес";
-            worksheet.Cell(currentRow, 6).Value = "Дата оформления";
-            worksheet.Cell(currentRow, 7).Value = "Дата доставки";
-            worksheet.Cell(currentRow, 8).Value = "Топливо";
-            worksheet.Cell(currentRow, 9).Value = "Количество";
-            worksheet.Cell(currentRow, 10).Value = "Имя водителя";
-            worksheet.Cell(currentRow, 11).Value = "Фамилия водителя";
-            worksheet.Cell(currentRow, 12).Value = "Отчество водителя";
-            worksheet.Cell(currentRow, 13).Value = "Телефон водителя";
+            worksheet.Cell(currentRow, 1).Value = "#";
+            worksheet.Cell(currentRow, 2).Value = "products";
+            worksheet.Cell(currentRow, 3).Value = "shop name";
+            worksheet.Cell(currentRow, 4).Value = "shop address";
+            worksheet.Cell(currentRow, 5).Value = "date";
 
             foreach (var order in histories)
             {
@@ -98,9 +90,8 @@ namespace TradeCompany.Infrastructure.Services.Histories
                 worksheet.Cell(currentRow, 1).Value = order.Id;
                 worksheet.Cell(currentRow, 2).Value = order.ProductName ;
                 worksheet.Cell(currentRow, 3).Value = order.Shop?.Name ?? "no data";
-                worksheet.Cell(currentRow, 3).Value = order.Shop?. ?? "no data";
-                worksheet.Cell(currentRow, 3).Value = order.Shop?.Name ?? "no data";
-                worksheet.Cell(currentRow, 4).Value = order.Date;
+                worksheet.Cell(currentRow, 4).Value = order.Shop?.Address ?? "no data";
+                worksheet.Cell(currentRow, 5).Value = order.Date;
             }
 
             return workbook;

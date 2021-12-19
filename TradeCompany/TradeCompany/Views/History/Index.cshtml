@@ -6,6 +6,20 @@
 
 <h1>History</h1>
 
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="DownloadExcelReport" method="get">
+            <div class="form-group">
+                Choose Id history
+                <select name="id" asp-items="ViewBag.His"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Download" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
 <p>
     <a asp-action="Create">Create New</a>
 </p>

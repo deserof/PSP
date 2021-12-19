@@ -8,6 +8,7 @@ using TradeCompany.Infrastructure.Services.Histories;
 using TradeCompany.Infrastructure.Services.Products;
 using TradeCompany.Infrastructure.Services.Shops;
 using TradeCompany.Models;
+using System.IO;
 
 namespace TradeCompany.Controllers
 {
@@ -28,7 +29,7 @@ namespace TradeCompany.Controllers
         public IActionResult Index()
         {
             var models = _historyService.GetAll();
-
+            ViewBag.His = new SelectList(_historyService.GetAll(), "Id", "Id");
             return View(models);
         }
 
@@ -64,6 +65,21 @@ namespace TradeCompany.Controllers
         {
             _historyService.Delete(id);
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult DownloadExcelReport(int id)
+        {
+            var file = _historyService.GenerateExcelReport(id);
+
+            using var stream = new MemoryStream();
+            file.SaveAs(stream);
+            var content = stream.ToArray();
+
+            file.Dispose();
+            return File(content,
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                "Report.xlsx");
         }
     }
 }
