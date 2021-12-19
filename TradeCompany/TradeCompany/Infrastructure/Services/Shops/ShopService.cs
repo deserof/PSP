@@ -21,6 +21,7 @@ namespace TradeCompany.Infrastructure.Services.Shops
         {
             return Db.Shops
                 .AsNoTracking()
+                .Include(x=>x.Products)
                 .ToList();
         }
 
@@ -47,6 +48,7 @@ namespace TradeCompany.Infrastructure.Services.Shops
         {
             return Db.Shops
                 .AsNoTracking()
+                .Include(x => x.Products)
                 .FirstOrDefault(x => x.Id == id);
         }
     }

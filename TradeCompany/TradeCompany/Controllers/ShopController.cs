@@ -38,9 +38,10 @@ namespace TradeCompany.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit()
+        public IActionResult Edit(int id)
         {
-            return View();
+            var model = _shopService.GetById(id);
+            return View(model);
         }
 
         [HttpPost]
@@ -55,6 +56,13 @@ namespace TradeCompany.Controllers
         {
             _shopService.Delete(id);
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult Details(int id)
+        {
+            var model = _shopService.GetById(id);
+            return View(model);
         }
     }
 }

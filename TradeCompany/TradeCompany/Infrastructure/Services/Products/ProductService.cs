@@ -21,6 +21,8 @@ namespace TradeCompany.Infrastructure.Services.Products
         {
             return Db.Products
                 .AsNoTracking()
+                .Include(x=>x.Shop)
+                .Include(x=>x.Status)
                 .ToList();
         }
 
