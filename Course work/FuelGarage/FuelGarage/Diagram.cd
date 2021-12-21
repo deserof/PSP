@@ -1,0 +1,214 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="FuelGarage.Extensions.DateExtension">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Extensions\DateExtension.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FuelGarage.Extensions.ErrorHandlerMiddleware">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAIAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Extensions\ErrorHandlerMiddleware.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FuelGarage.Controllers.AccountController">
+    <Position X="6.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAAABAAAAAQAUAAAAAAA=</HashCode>
+      <FileName>Controllers\AccountController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FuelGarage.Controllers.AdminController">
+    <Position X="10.25" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAQACAARCAAQAwAIhABFAagAAAAAAAAAkGGEAMAA0AA=</HashCode>
+      <FileName>Controllers\AdminController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FuelGarage.Controllers.CustomerController">
+    <Position X="12.75" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAgAAAAABAAAAAAAAAAAAgGEEAEAAAAA=</HashCode>
+      <FileName>Controllers\CustomerController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FuelGarage.Controllers.DriverController">
+    <Position X="8.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAACEEAAAAAAA=</HashCode>
+      <FileName>Controllers\DriverController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FuelGarage.Controllers.HomeController">
+    <Position X="8.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAACAAAAAAAEEAAAAAAA=</HashCode>
+      <FileName>Controllers\HomeController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FuelGarage.AutoMapper.AutoMapperProfile">
+    <Position X="4.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AutoMapper\AutoMapperProfile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FuelGarage.Startup">
+    <Position X="0.5" Y="3.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAgAAACAAAAAA=</HashCode>
+      <FileName>Startup.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FuelGarage.Program">
+    <Position X="2.75" Y="3.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FuelGarage.Logger">
+    <Position X="4.75" Y="3.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Logger.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FuelGarage.Di.IoC">
+    <Position X="0.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="FuelGarage.Domain.Entities.Fuel">
+    <Position X="0.75" Y="9.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="FuelGarage.Domain.Entities.Order">
+    <Position X="6" Y="9.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="FuelGarage.Domain.Entities.Role">
+    <Position X="0.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="FuelGarage.Domain.Entities.Status">
+    <Position X="2.5" Y="9.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="FuelGarage.Domain.Entities.User">
+    <Position X="4.25" Y="9.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="FuelGarage.Domain.Entities.Vehicle">
+    <Position X="2.5" Y="11.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="FuelGarage.Domain.ViewModels.AdminCustomerViewModel">
+    <Position X="10.75" Y="9.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="FuelGarage.Domain.ViewModels.AdminDriverViewModel">
+    <Position X="12.5" Y="9.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="FuelGarage.Domain.ViewModels.AdminOrderViewModel">
+    <Position X="17.75" Y="8.75" Width="2" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="FuelGarage.Domain.ViewModels.CustomerFullName">
+    <Position X="14.25" Y="11.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="FuelGarage.Domain.ViewModels.CustomerOrderViewModel">
+    <Position X="10.5" Y="14" Width="1.75" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="FuelGarage.Domain.ViewModels.DriverFullNameViewModel">
+    <Position X="12.5" Y="12.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="FuelGarage.Domain.ViewModels.DriverOrderViewModel">
+    <Position X="16" Y="13.5" Width="2" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="FuelGarage.Domain.ViewModels.FuelViewModel">
+    <Position X="14.25" Y="9.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="FuelGarage.Domain.ViewModels.LoginModel">
+    <Position X="16" Y="9.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="FuelGarage.Domain.ViewModels.NewOrderViewModel">
+    <Position X="14.25" Y="14" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="FuelGarage.Domain.ViewModels.RegisterModel">
+    <Position X="18.25" Y="13.5" Width="1.75" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="FuelGarage.Domain.ViewModels.Report">
+    <Position X="16" Y="11.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="FuelGarage.Domain.ViewModels.UserEmail">
+    <Position X="10.75" Y="12.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="FuelGarage.Domain.ViewModels.VehicleViewModel">
+    <Position X="12.5" Y="14.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="FuelGarage.Infrastructure.Db.GarageContext">
+    <Position X="0.5" Y="15.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="FuelGarage.Infrastructure.Services.Fuels.FuelService" BaseTypeListCollapsed="true">
+    <Position X="9.25" Y="19.25" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FuelGarage.Infrastructure.Services.Orders.OrderService" BaseTypeListCollapsed="true">
+    <Position X="11" Y="19.25" Width="2" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FuelGarage.Infrastructure.Services.Statuses.StatusService" BaseTypeListCollapsed="true">
+    <Position X="13.25" Y="19.25" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FuelGarage.Infrastructure.Services.Users.UserService" BaseTypeListCollapsed="true">
+    <Position X="8.25" Y="22" Width="2.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FuelGarage.Infrastructure.Services.Vehicles.VehicleService" BaseTypeListCollapsed="true">
+    <Position X="11" Y="22.25" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Interface Name="FuelGarage.Infrastructure.Services.Fuels.IFuelService">
+    <Position X="2.25" Y="17.25" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="FuelGarage.Infrastructure.Services.Orders.IOrderService">
+    <Position X="4" Y="17.25" Width="2" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="FuelGarage.Infrastructure.Services.Statuses.IStatusService">
+    <Position X="6.25" Y="17.25" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="FuelGarage.Infrastructure.Services.Users.IUserService">
+    <Position X="1.5" Y="19.75" Width="2.25" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="FuelGarage.Infrastructure.Services.Vehicles.IVehicleService">
+    <Position X="4" Y="20" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
