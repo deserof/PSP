@@ -4,22 +4,22 @@
     ViewData["Title"] = "List";
 }
 
-<h1>Catalog cards</h1>
+<h1>Каталожная карточка</h1>
 
 <p>
-    <a asp-action="Create">Add new card</a>
+    <a asp-action="Create">Добавить каталожную карточку</a>
 </p>
 <table class="table table-striped">
     <thead class="thead-dark">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.QantityOfBook)
+                Количессво книг
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BookName)
+                Название книги
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BookAuthor)
+                Автор
             </th>
             <th></th>
         </tr>
@@ -38,9 +38,9 @@
                 @Html.DisplayFor(modelItem => item.BookAuthor)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Изменить", "Edit", new { id = item.Id }) |
                 @*@Html.ActionLink("Details", "Details", new { id = item.Id }) |*@
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
             </td>
         </tr>
         }

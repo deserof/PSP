@@ -4,7 +4,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 -->
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <_PublishTargetUrl>D:\Artem\Desktop\psp\CourseWork\Library\Library\bin\Release\netcoreapp3.1\publish\</_PublishTargetUrl>
-    <History>True|2021-11-29T23:45:39.3243607Z;</History>
+    <_PublishTargetUrl>D:\Artem\Desktop\PSP\CourseWork\Library\Library\bin\Release\netcoreapp3.1\publish\</_PublishTargetUrl>
+    <History>True|2021-12-23T23:10:25.6115502Z;True|2021-12-24T02:09:39.6250958+03:00;True|2021-12-24T02:05:37.6600368+03:00;True|2021-11-30T02:45:39.3243607+03:00;</History>
   </PropertyGroup>
 </Project>

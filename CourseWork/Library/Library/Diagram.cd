@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Library.Infrastructure.Db.LibraryContext">
+    <Position X="3.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEIAAAAAAAAAAAAgAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Infrastructure\Db\LibraryContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Library.Infrastructure.Services.Implementations.BookService" BaseTypeListCollapsed="true">
+    <Position X="11.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAEAAEACAgAAAAAAAIA=</HashCode>
+      <FileName>Infrastructure\Services\Implementations\BookService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Library.Infrastructure.Services.Implementations.CatalogCardService" BaseTypeListCollapsed="true">
+    <Position X="5.25" Y="7.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAABAAAAAAAQAAAAAEAAkACAgAAAAAAAIA=</HashCode>
+      <FileName>Infrastructure\Services\Implementations\CatalogCardService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Library.Infrastructure.Services.Implementations.ReaderListService" BaseTypeListCollapsed="true">
+    <Position X="10" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAEAAEACAgAAAAAAAIA=</HashCode>
+      <FileName>Infrastructure\Services\Implementations\ReaderListService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Library.Infrastructure.Services.Implementations.SubscriptionCardService" BaseTypeListCollapsed="true">
+    <Position X="7.25" Y="7.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAoAAAAAAAAAAAAAAAAAAAAAEAAEACAgAAAAAAAIA=</HashCode>
+      <FileName>Infrastructure\Services\Implementations\SubscriptionCardService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Library.Entities.Book">
+    <Position X="9.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAggAAAAAQAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Book.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Library.Entities.CatalogCard">
+    <Position X="12.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACCAAAAAAAAABAAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\CatalogCard.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Library.Entities.ReaderList">
+    <Position X="11" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAEAAAAAAAAAAAAAQAAAAAAAAAAACAAAAAAAAAAg=</HashCode>
+      <FileName>Entities\ReaderList.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Library.Entities.SubscriptionCard">
+    <Position X="14.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAACAAAAAAAoAAAQAAAAAAAAAACCAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\SubscriptionCard.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Library.Controllers.BookController">
+    <Position X="11.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAAAAAAAEAAEACAAAAAAAAAAI=</HashCode>
+      <FileName>Controllers\BookController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Library.Controllers.CatalogCardController">
+    <Position X="7" Y="4.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAEAAAAAAAAAAAAAAAAAAEAAEACAAAAAAAAAAI=</HashCode>
+      <FileName>Controllers\CatalogCardController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Library.Controllers.HomeController">
+    <Position X="5.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAIAAAAQAAAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\HomeController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Library.Controllers.ReaderListController">
+    <Position X="13" Y="4.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAEAAEACAAAAAAABAAI=</HashCode>
+      <FileName>Controllers\ReaderListController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Library.Controllers.ReportController">
+    <Position X="9.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAMAAAAAAAA=</HashCode>
+      <FileName>Controllers\ReportController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Library.Controllers.SubscriptionCardController">
+    <Position X="15.25" Y="4.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAgAAAAAAAAAAAEAAEACAAAAAAABAAI=</HashCode>
+      <FileName>Controllers\SubscriptionCardController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Library.Models.BookViewModel">
+    <Position X="21.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAggAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\BookViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Library.Models.CatalogCardViewModel">
+    <Position X="18.75" Y="1.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAQAAAAAAIAAABAAAAAAAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>Models\CatalogCardViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Library.Models.ReaderListViewModel">
+    <Position X="19.25" Y="3.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAEAAAQAAAAAAAAAQAAAAAAAAAAACAAAAAAAAAAg=</HashCode>
+      <FileName>Models\ReaderListViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Library.Models.SubscriptionCardViewModel">
+    <Position X="21.25" Y="1.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>BAACAAAAAAAgAAASAAACAAAAAAACAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\SubscriptionCardViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Library.Infrastructure.Services.Interfaces.IBookService">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Infrastructure\Services\Interfaces\IBookService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Library.Infrastructure.Services.Interfaces.ICatalogCardService">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAQAAAAAAAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>Infrastructure\Services\Interfaces\ICatalogCardService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Library.Infrastructure.Services.Interfaces.IReaderListService">
+    <Position X="5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Infrastructure\Services\Interfaces\IReaderListService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Library.Infrastructure.Services.Interfaces.IService&lt;T&gt;" Collapsed="true">
+    <Position X="3.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAEAAEACAgAAAAAAAIA=</HashCode>
+      <FileName>Infrastructure\Services\Interfaces\IService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Library.Infrastructure.Services.Interfaces.ISubscriptionCardService">
+    <Position X="7.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Infrastructure\Services\Interfaces\ISubscriptionCardService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
